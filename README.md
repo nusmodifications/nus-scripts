@@ -46,7 +46,7 @@ Quickstart
 
 
 7. Wait until the alert **'All claims made!'** is shown, then press 'OK'.
-8. You will be brought back to the previous page. Click on the button **'Claim'** again and verify that you have 80 hours in total.
+8. You will be brought back to the previous page. Click on the button **'Claim'** again and verify that the hours are correct.
 
 
 Documentation
