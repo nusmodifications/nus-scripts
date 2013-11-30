@@ -1,9 +1,12 @@
-// REQUIRED CONSTANTS - DO NOT MODIFY 
+// ***********************************************************
+// REQUIRED CONSTANTS, DO NOT MODIFY
+// ***********************************************************
 var ASSIGNMENT_MARKING = 'Assignment Marking';
 var COURSE_MATERIAL_PREPARATION = 'Course Material Preparation';
 var TUTORIAL = 'Tutorial';
 var POST_URL = '/~tssclaim/tutor/teach_claim.php';
 var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
+
 
 // ***********************************************************
 // READ THE FOLLOWING BEFORE STARTING
@@ -13,7 +16,7 @@ var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
 // 2. Login to the portal at: https://mysoc.nus.edu.sg/~tssclaim/. Fill in your bank account information if you haven't.
 
 // 3. Access the page titled 'Student Claim Submission' (https://mysoc.nus.edu.sg/~tssclaim/tutor/teach_claim.php?page=1) and click on
-//    the 'Claim' button under the module CS1010S. You should see the interface for you to enter details of the teaching claim activity.
+//    the 'Claim' button under your module. You should see the interface for you to enter details of the teaching claim activity.
 
 // 4. Open the JS console (Ctrl/Cmd + Shift/Option + J), paste all the code in this file in the JS console and press enter. You should
 // 	  see the message 'Claim object successfully created. Run c.makeAllClaims() to start.'.
@@ -24,8 +27,9 @@ var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
 
 // To delete all claims on the page, run the function c.deleteAllClaims()
 
+
 // ***********************************************************
-// CONFIGURE THE FOLLOWING PARAMETERS
+// CONFIGURE THE RELEVANT PROPERTIES IN THE CONFIG OBJECT
 // ***********************************************************
 
 var config = {
@@ -34,17 +38,18 @@ var config = {
 	// This should be the semester's week 1. For AY13/14 Sem 1, it's Monday, Aug 12
 	first_day_of_sem: new Date(2013,07,12),
 	// the id you use to log in to the portal
-	student_id : 'a0073063',
-	// module you are claiming for
+	student_id: 'a0073063',
+	// module you are claiming hours for
 	module: 'CS1010S',
-	// in case you want to customize the remarks field for each activity
-	remarks: {
+	// in case you want to customize the duties field for each activity
+	duties: {
 		'Assignment Marking': 'Graded students\' assignments',
 		'Course Material Preparation': 'Prepared course materials',
 		'Tutorial': 'Conducted tutorial'
 	},
+
 	// the following function should return a list of claim objects that you want to make
-	claims_list_fn: function() {	
+	activities_list_fn: function() {	
 		var claims_list = [];
 		// Course prep: 20 hours
 		for (var week = 1; week <= 2; week++) {
@@ -109,13 +114,13 @@ ACTIVITY_DICT[TUTORIAL] = 'T';
 var DAY_DICT = { 'MONDAY': 0, 'TUESDAY': 1, 'WEDNESDAY': 2, 'THURSDAY': 3, 'FRIDAY': 4, 'SATURDAY': 5, 'SUNDAY': 6 };
 
 function Claim(config) {
-	this.student_id = config.student_id;
+	this.student_id = config.student_id.toLowerCase();
 	this.module = config.module;
-	this.remarks = config.remarks;
+	this.remarks = config.duties;
 	this.first_day_of_sem = config.first_day_of_sem;
 	this.error = false;
 	var that = this;
-	function createClaim(activity_type, week, day, start_time, end_time) {
+	function createActivity(activity_type, week, day, start_time, end_time) {
 		// obj has the properties: 
 		var day_upper = day.toUpperCase();
 		try {
@@ -155,11 +160,11 @@ function Claim(config) {
 			that.makeClaim(activity_type, week, day, start_time, end_time);
 		};
 	}
-	var claims = config.claims_list_fn();
-	this.claims_list = [];
-	for (var i = 0; i < claims.length; i++) {
-		var c = claims[i];
-		this.claims_list.push(createClaim(c.activity_type, c.week, c.day, c.start_time, c.end_time));
+	var activities = config.activities_list_fn();
+	this.activities_list = [];
+	for (var i = 0; i < activities.length; i++) {
+		var a = activities[i];
+		this.activities_list.push(createActivity(a.activity_type, a.week, a.day, a.start_time, a.end_time));
 	}
 
 	this.ajax_index = 0; // index to keep track of the current ajax call
@@ -192,8 +197,8 @@ Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_t
 	$.post(POST_URL, post_data, function(data) {
 		console.log('Successfully added ' + activity_type + ' for ' + claim_date_str);
 		that.ajax_index += 1;
-		if (that.ajax_index < that.claims_list.length) {
-			that.claims_list[that.ajax_index]();
+		if (that.ajax_index < that.activities_list.length) {
+			that.activities_list[that.ajax_index]();
 		} else {
 			alert('All claims made! Press OK to continue.');
 			// redirect to previous page because a refresh of the page would trigger the last ajax call
@@ -229,7 +234,7 @@ Claim.prototype.deleteAllClaims = function() {
 
 Claim.prototype.makeAllClaims = function() {
 	if (!this.error) {
-		this.claims_list[this.ajax_index]();
+		this.activities_list[this.ajax_index]();
 	}
 }
 
