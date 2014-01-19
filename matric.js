@@ -26,7 +26,7 @@
     for (var i = 0; i < imgs.length; i++) {
         var img = imgs[i];
         if (img.id && img.src === 'https://ivle.nus.edu.sg/images/nophoto.jpg') {
-            var matricNumber = calculateMatricNumber(img.id);
+            var matricNumber = calculateNUSMatricNumber(img.id);
             if (matricNumber) {
                 img.src = 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=' + matricNumber + '&type=U';
             }
