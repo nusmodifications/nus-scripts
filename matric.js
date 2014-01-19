@@ -24,12 +24,21 @@
 
     var imgs = document.getElementsByTagName('img');
     for (var i = 0; i < imgs.length; i++) {
-        var img = imgs[i];
-        if (img.id && img.src === 'https://ivle.nus.edu.sg/images/nophoto.jpg') {
-            var matricNumber = calculateNUSMatricNumber(img.id);
-            if (matricNumber) {
-                img.src = 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=' + matricNumber + '&type=U';
+        (function () {
+            var img = imgs[i];
+            if (img.id && img.src === 'https://ivle.nus.edu.sg/images/nophoto.jpg') {
+                var matricNumber = calculateNUSMatricNumber(img.id);
+                if (matricNumber) {
+                    img.onerror = function () {
+                        img.onerror = function () {
+                            img.removeAttribute('onerror');
+                            img.src = 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=' + matricNumber + '&type=X';
+                        }
+                        img.src = 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=' + matricNumber + '&type=P';
+                    }
+                    img.src = 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=' + matricNumber + '&type=U';
+                }
             }
-        }
+        })();
     }
 })();
