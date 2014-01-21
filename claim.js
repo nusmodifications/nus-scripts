@@ -35,8 +35,8 @@ var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
 var config = {
 	// Format: YYYY/MM/DD
 	// Note: Month is from 0-11, Date is from 1-31
-	// This should be the semester's week 1. For AY13/14 Sem 1, it's Monday, Aug 12
-	first_day_of_sem: new Date(2013,07,12),
+	// This should be the semester's week 1. For AY13/14 Sem 2, it's Monday, Jan 13
+	first_day_of_sem: new Date(2014,0,13),
 	// the id you use to log in to the portal
 	student_id: 'a0073063',
 	// module you are claiming hours for
