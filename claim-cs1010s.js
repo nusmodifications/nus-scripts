@@ -194,8 +194,7 @@ Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_t
 	}
 
 	var that = this;
-	$.post(POST_URL, post_data, function(data) {
-		console.log('Successfully added ' + activity_type + ' for ' + claim_date_str);
+	console.log('Successfully added ' + activity_type + ' for ' + claim_date_str);
 		that.ajax_index += 1;
 		if (that.ajax_index < that.activities_list.length) {
 			that.activities_list[that.ajax_index]();
@@ -203,9 +202,7 @@ Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_t
 			alert('All claims made! Press OK to continue.');
 			// redirect to previous page because a refresh of the page would trigger the last ajax call
 			window.location.href = window.location.protocol +'//'+ window.location.host + END_REDIRECT_URL;
-		}
-	});
-};
+		}};
 
 Claim.prototype.deleteAllClaims = function() {
 	var that = this;
@@ -239,4 +236,4 @@ Claim.prototype.makeAllClaims = function() {
 }
 
 var c = new Claim(config);
-// c.makeAllClaims();
+c.makeAllClaims();
