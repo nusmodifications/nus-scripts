@@ -44,6 +44,8 @@
         var fullMatric = getFullMatricNum($(td['1'])['0'].innerHTML);
         if (fullMatric) {
           $img.attr('src', 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=' + fullMatric + '&type=U');
+          $img.attr('height', 227);
+          $img.attr('width', 170);
           console.log('Image loaded for ' + fullMatric);
         }
       }
