@@ -47,21 +47,23 @@ Configuration
 - `activity_type`: Use the pre-defined constants: **ASSIGNMENT_MARKING** | **COURSE_MATERIAL_PREPARATION** | **TUTORIAL**
 - `week`: An integer, indicating the week number of the sem. This is to facilitate convenient calculation of the date of activity. The script only supports activities performed from week 1 onwards, excluding recess week and reading week. If your activity falls on recess/reading week, you will have to add them into the system yourself manually.
 - `day`: A string, with one of these values: **"MONDAY"**, **"TUESDAY"**, **"WEDNESDAY"**, **"THURSDAY"**, **"FRIDAY"**, **"SATURDAY"**, **"SUNDAY"**.
-- `start_time**: A 4-character string, representing the starting time of the activity in 24-hour format. The minute value has to be 00 or 30.
+- `start_time`: A 4-character string, representing the starting time of the activity in 24-hour format. The minute value has to be 00 or 30.
 - `end_time`: Similar to `start_time`, but represents the ending time of the activity. 
 
 
 Documentation
 --
 
+After pasting the code from `claims.js`, a global claims variable called `c` will be created. It exposes two commands:
+
 ##### Claiming #####
 
 To make the claims, run the function:
    
-    c.makeAllClaims()
+    c.makeAllClaims();
 
 ##### Deletion #####
 
 To delete all claims on the page, run the function 
     
-    c.deleteAllClaims()
+    c.deleteAllClaims();
