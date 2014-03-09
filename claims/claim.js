@@ -37,23 +37,24 @@ var config = {
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY13/14 Sem 2, it's Monday, Jan 13
   first_day_of_sem: new Date(2014,0,13),
-  // the id you use to log in to the portal
+  // Your student ID
   student_id: 'a0073063',
-  // module you are claiming hours for
+  // Module you are claiming hours for
   module: 'CS1010S',
-  // in case you want to customize the duties field for each activity
+  // In case you want to customize the duties field for each activity
+  // Do not modify the keys
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
     'Course Material Preparation': 'Prepared course materials',
     'Tutorial': 'Conducted tutorial'
   },
 
-  // the following function should return a list of claim objects that you want to make
+  // The following function should return a list of claim objects that you want to make
   activities_list_fn: function() {  
     var activities_list = [];
 
-    // this is an example of how you can make weekly claims
-    // note that the week value does not support recess and reading weeks.
+    // This is an example of how you can make weekly claims
+    // Note that the week value does not support recess and reading weeks.
     for (var week = 3; week <= 13; week++) {
       if (week === 7) { // there was no tutorial in week 7
         continue;
@@ -96,9 +97,10 @@ function Claim(config) {
   this.remarks = config.duties;
   this.first_day_of_sem = config.first_day_of_sem;
   this.error = false;
+  
   var that = this;
+  
   function createActivity(activity_type, week, day, start_time, end_time) {
-    // obj has the properties: 
     var day_upper = day.toUpperCase();
     try {
       if (ACTIVITY_DICT[activity_type] == undefined || typeof activity_type != "string") {
@@ -110,6 +112,7 @@ function Claim(config) {
       if (DAY_DICT[day_upper] == undefined || typeof day_upper != "string") {
         throw "Day error: " + day + ". Day value has to be a valid day string.";
       }
+
       function checkTime(time) {
         var start_time_hour = time.slice(0,2);
         var start_time_min = time.slice(2);
@@ -120,10 +123,12 @@ function Claim(config) {
           throw "Time error: " + time + ". Time has to be string in 24-hr format at half-hour intervals.";
         }
       }
+
       checkTime(start_time);
       checkTime(end_time);
       var start_time_hour = parseInt(start_time.slice(0,2));
       var end_time_hour = parseInt(end_time.slice(0,2));
+
       if (start_time_hour > end_time_hour || start_time === end_time) {
         throw "Time error: end_time: " + end_time + " must be after start_time: " + start_time + ".";
       } else if (end_time_hour - start_time_hour > 8) {
@@ -133,6 +138,7 @@ function Claim(config) {
       error = true;
       console.log(err);
     }
+
     return function() { 
       that.makeClaim(activity_type, week, day, start_time, end_time);
     };
@@ -202,6 +208,7 @@ Claim.prototype.deleteAllClaims = function() {
       }
     });
   }
+
   var count = 0;
   var $existing_claims = $('#claim-info-div table [name="claim_id"]');
   $existing_claims.each(function() {
