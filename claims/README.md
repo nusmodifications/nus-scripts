@@ -5,6 +5,27 @@ A script for automating the Student Claim Submission process that will save SOC 
 
 ![Screenshot](img/screenshot.png)
 
+
+Quickstart
+--
+
+1. **IMPORTANT STEP!!!**: Change the properties in the config object near the start of the `claim.js` file. Refer to the **Configuration** section below.
+2. Login to the portal at: [https://mysoc.nus.edu.sg/~tssclaim/](https://mysoc.nus.edu.sg/~tssclaim/). Fill in your bank account information if you haven't done so.
+3. Access the page titled **'Student Claim Submission'**, [https://mysoc.nus.edu.sg/~tssclaim/tutor/teach_claim.php?page=1](https://mysoc.nus.edu.sg/~tssclaim/tutor/teach_claim.php?page=1) and click on the **'Claim'** button under your module. You should see the interface for you to enter details of the teaching claim activity.
+4. Open the JavaScript console of your browser by pressing **Ctrl/Cmd + Shift/Option + J**.
+5. Paste all the code in `claim.js` in the console and press enter. You should see the following message:
+    
+        Claim object successfully created. Run c.makeAllClaims() to start.
+
+
+6. Run the command:
+
+        c.makeAllClaims();
+
+
+7. Wait until the alert **'All claims made!'** is shown, then press 'OK'.
+8. You will be brought back to the previous page. Click on the button **'Claim'** again and verify that the hours are correct.
+
 Configuration
 --
 
@@ -28,27 +49,6 @@ Configuration
 - `day`: A string, with one of these values: **"MONDAY"**, **"TUESDAY"**, **"WEDNESDAY"**, **"THURSDAY"**, **"FRIDAY"**, **"SATURDAY"**, **"SUNDAY"**.
 - `start_time**: A 4-character string, representing the starting time of the activity in 24-hour format. The minute value has to be 00 or 30.
 - `end_time`: Similar to `start_time`, but represents the ending time of the activity. 
-
-
-Quickstart
---
-
-1. **IMPORTANT STEP!!!**: Change the properties in the config object near the start of the `claim.js` file.
-2. Login to the portal at: [https://mysoc.nus.edu.sg/~tssclaim/](https://mysoc.nus.edu.sg/~tssclaim/). Fill in your bank account information if you haven't done so.
-3. Access the page titled **'Student Claim Submission'**, [https://mysoc.nus.edu.sg/~tssclaim/tutor/teach_claim.php?page=1](https://mysoc.nus.edu.sg/~tssclaim/tutor/teach_claim.php?page=1) and click on the **'Claim'** button under your module. You should see the interface for you to enter details of the teaching claim activity.
-4. Open the JavaScript console of your browser by pressing **Ctrl/Cmd + Shift/Option + J**.
-5. Paste all the code in `claim.js` in the console and press enter. You should see the following message:
-    
-        Claim object successfully created. Run c.makeAllClaims() to start.
-
-
-6. Run the command:
-
-        c.makeAllClaims();
-
-
-7. Wait until the alert **'All claims made!'** is shown, then press 'OK'.
-8. You will be brought back to the previous page. Click on the button **'Claim'** again and verify that the hours are correct.
 
 
 Documentation
