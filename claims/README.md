@@ -10,24 +10,24 @@ Configuration
 
 **IMPORTANT!!**: Take a look at the `config` variable in `claim.js`. You will have to modify the variables before you run the script.
 
-_Config Variable_
+**Config Variable**
 
-- **first_day_of_sem**: A JavaScript `Date` object indicating the first day of the semester.
-- **student_id**: Your NUSNET id, without the letter at the back.
-- **module**: The module code of the module you are making claims for.
-- **duties**: A object that maps the type of activity to the description of duties.
+- `first_day_of_sem`: A JavaScript `Date` object indicating the first day of the semester.
+- `student_id`: Your NUSNET id, without the letter at the back.
+- `module`: The module code of the module you are making claims for.
+- `duties`: A object that maps the type of activity to the description of duties.
 	- Assignment Marking
 	- Course Material Preparation
 	- Tutorial
-- **activities_list_fn**: This function should return a list of **activity** objects that you want to claim. The properties of the activity object are found in the next section. Look at the code inside `claim.js` to get a better idea of how to use the function.
+- `activities_list_fn`: This function should return a list of **activity** objects that you want to claim. The properties of the activity object are found in the next section. Look at the code inside `claim.js` to get a better idea of how to use the function.
 
-_Activity Object_
+**Activity Object**
 
-- **activity_type**: Use the pre-defined constants: **ASSIGNMENT_MARKING** | **COURSE_MATERIAL_PREPARATION** | **TUTORIAL**
-- **week**: An integer, indicating the week number of the sem. This is to facilitate convenient calculation of the date of activity. The script only supports activities performed from week 1 onwards, excluding recess week and reading week. If your activity falls on recess/reading week, you will have to add them into the system yourself manually.
-- **day**: A string, with one of these values: **"MONDAY"**, **"TUESDAY"**, **"WEDNESDAY"**, **"THURSDAY"**, **"FRIDAY"**, **"SATURDAY"**, **"SUNDAY"**.
-- **start_time**: A 4-character string, representing the starting time of the activity in 24-hour format. The minute value has to be 00 or 30.
-- **end_time**: Similar to `start_time`, but represents the ending time of the activity. 
+- `activity_type`: Use the pre-defined constants: **ASSIGNMENT_MARKING** | **COURSE_MATERIAL_PREPARATION** | **TUTORIAL**
+- `week`: An integer, indicating the week number of the sem. This is to facilitate convenient calculation of the date of activity. The script only supports activities performed from week 1 onwards, excluding recess week and reading week. If your activity falls on recess/reading week, you will have to add them into the system yourself manually.
+- `day`: A string, with one of these values: **"MONDAY"**, **"TUESDAY"**, **"WEDNESDAY"**, **"THURSDAY"**, **"FRIDAY"**, **"SATURDAY"**, **"SUNDAY"**.
+- `start_time**: A 4-character string, representing the starting time of the activity in 24-hour format. The minute value has to be 00 or 30.
+- `end_time`: Similar to `start_time`, but represents the ending time of the activity. 
 
 
 Quickstart
