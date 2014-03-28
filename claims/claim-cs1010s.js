@@ -4,6 +4,7 @@
 var ASSIGNMENT_MARKING = 'Assignment Marking';
 var COURSE_MATERIAL_PREPARATION = 'Course Material Preparation';
 var TUTORIAL = 'Tutorial';
+var CONSULTATION = 'Consultation with students';
 var POST_URL = '/~tssclaim/tutor/teach_claim.php';
 var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
 
@@ -45,48 +46,39 @@ var config = {
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
     'Course Material Preparation': 'Prepared course materials',
-    'Tutorial': 'Conducted tutorial'
+    'Tutorial': 'Conducted tutorial',
+    'Consultation with students': 'Had consultation with students'
   },
 
   // the following function should return a list of claim objects that you want to make
   activities_list_fn: function() {  
     var claims_list = [];
     // Course prep: 20 hours
-    for (var week = 1; week <= 2; week++) {
+    for (var week = 1; week <= 5; week++) {
       claims_list.push({
         activity_type: COURSE_MATERIAL_PREPARATION, 
         week: week, 
         day: "MONDAY", 
-        start_time: '1200', 
-        end_time: '1700'
+        start_time: '1100', 
+        end_time: '1200'
       });
       claims_list.push({
-        activity_type: COURSE_MATERIAL_PREPARATION, 
+        activity_type: CONSULTATION, 
         week: week, 
         day: "TUESDAY", 
-        start_time: '1200', 
+        start_time: '1600', 
         end_time: '1700'
       });
     }
 
     // Weekly stuff (Tutorials and Assignments Marking: 20 + 40 = 60 hours)
     for (var week = 3; week <= 13; week++) {
-      if (week === 7) { // there was no tutorial in week 7
-        continue;
-      }
       claims_list.push({
         activity_type: TUTORIAL, 
         week: week, 
         day: "MONDAY", 
-        start_time: '1200', 
-        end_time: '1700'
-      });
-      claims_list.push({
-        activity_type: TUTORIAL, 
-        week: week, 
-        day: "TUESDAY", 
-        start_time: '1400', 
-        end_time: '1500'
+        start_time: '1300', 
+        end_time: '1400'
       });
       claims_list.push({
         activity_type: ASSIGNMENT_MARKING, 
@@ -110,6 +102,7 @@ var ACTIVITY_DICT = {};
 ACTIVITY_DICT[ASSIGNMENT_MARKING] = '003';
 ACTIVITY_DICT[COURSE_MATERIAL_PREPARATION] = '006';
 ACTIVITY_DICT[TUTORIAL] = 'T';
+ACTIVITY_DICT[CONSULTATION] = 'C';
 
 var DAY_DICT = { 'MONDAY': 0, 'TUESDAY': 1, 'WEDNESDAY': 2, 'THURSDAY': 3, 'FRIDAY': 4, 'SATURDAY': 5, 'SUNDAY': 6 };
 
@@ -194,7 +187,8 @@ Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_t
   }
 
   var that = this;
-  console.log('Successfully added ' + activity_type + ' for ' + claim_date_str);
+  $.post(POST_URL, post_data, function(data) {
+    console.log('Successfully added ' + activity_type + ' for ' + claim_date_str);
     that.ajax_index += 1;
     if (that.ajax_index < that.activities_list.length) {
       that.activities_list[that.ajax_index]();
@@ -202,7 +196,9 @@ Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_t
       alert('All claims made! Press OK to continue.');
       // redirect to previous page because a refresh of the page would trigger the last ajax call
       window.location.href = window.location.protocol +'//'+ window.location.host + END_REDIRECT_URL;
-    }};
+    }
+  });
+};
 
 Claim.prototype.deleteAllClaims = function() {
   var that = this;

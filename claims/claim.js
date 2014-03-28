@@ -4,6 +4,7 @@
 var ASSIGNMENT_MARKING = 'Assignment Marking';
 var COURSE_MATERIAL_PREPARATION = 'Course Material Preparation';
 var TUTORIAL = 'Tutorial';
+var CONSULTATION = 'Consultation with students';
 var POST_URL = '/~tssclaim/tutor/teach_claim.php';
 var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
 
@@ -46,7 +47,8 @@ var config = {
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
     'Course Material Preparation': 'Prepared course materials',
-    'Tutorial': 'Conducted tutorial'
+    'Tutorial': 'Conducted tutorial',
+    'Consultation with students': 'Had consultation with students'
   },
 
   // The following function should return a list of claim objects that you want to make
@@ -88,6 +90,7 @@ var ACTIVITY_DICT = {};
 ACTIVITY_DICT[ASSIGNMENT_MARKING] = '003';
 ACTIVITY_DICT[COURSE_MATERIAL_PREPARATION] = '006';
 ACTIVITY_DICT[TUTORIAL] = 'T';
+ACTIVITY_DICT[CONSULTATION] = 'C';
 
 var DAY_DICT = { 'MONDAY': 0, 'TUESDAY': 1, 'WEDNESDAY': 2, 'THURSDAY': 3, 'FRIDAY': 4, 'SATURDAY': 5, 'SUNDAY': 6 };
 
