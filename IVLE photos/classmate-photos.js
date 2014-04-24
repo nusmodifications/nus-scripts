@@ -10,53 +10,35 @@
 
 // Credits: Camillus Cai for the full matric number function
 
-(function(d) {
-  
-  var addStudentPhotos = function() {
-    var getFullMatricNum = function(matric) {
-      matric = matric.toUpperCase();
-      if (matric[0] === 'A') {
-        if (matric.length < 8 || matric.length > 9) {
-          return null;
-        }
-        if (matric.length == 8) {
-          var sum = 0;
-          for (var i = 1; i < matric.length; i++) {
-            sum += parseInt(matric[i]);
-          }
-          var mod_13 = sum % 13;
-          var checksum = 'YXWURNMLJHEAB'[mod_13];
-          matric += checksum;
-        }
-        return matric;
-      } else if (matric[0] === 'U') {
-        return null;
-      } else {
-        return null;
+var normalize = function (id) {
+  var matches = id.toUpperCase().match(/^A\d{7}|U\d{6,7}/);
+  if (matches) {
+    var match = matches[0];
+    if (match[0] === 'U' && match.length === 8) {
+      match = match.slice(0, 3) + match.slice(4);
+    }
+    var weights = {
+      U: [0, 1, 3, 1, 2, 7],
+      A: [1, 1, 1, 1, 1, 1]
+    }[match[0]];
+    for (var i = 0, sum = 0, digits = match.slice(-6); i < 6; i++) {
+      sum += weights[i] * digits[i];
+    }
+    return match + 'YXWURNMLJHEAB'[sum % 13];
+  }
+};
+
+var nopics = document.evaluate('//img[@src="/images/nophoto.jpg" and @id]', document, null, 6, null);
+for (var i = 0; i < nopics.snapshotLength; i++) {
+  var fullMatric = normalize(nopics.snapshotItem(i).id);
+  if (fullMatric) {
+    var img = nopics.snapshotItem(i);
+    img.onerror = function () {
+      var next = {'U':'P', 'P':'X', 'X':null}[this.src.slice(-1)];
+      if (next) {
+        this.src = this.src.slice(0, -1) + next;
       }
     };
-
-    var tableRows = $('table.dataGridCtrl tr[class^="dataGridCtrl-"]');
-    $(tableRows).each(function() {
-      var td = $(this).find('td');
-      if (td.length > 0) {
-        var $img = $(td['0']).find('img');
-        var fullMatric = getFullMatricNum($(td['1'])['0'].innerHTML);
-        if (fullMatric) {
-          $img.attr('src', 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=' + fullMatric + '&type=U');
-          $img.attr('height', 227);
-          $img.attr('width', 170);
-          console.log('Image loaded for ' + fullMatric);
-        }
-      }
-    });
-  };
-
-  var script = d.createElement('script');
-  script.type = 'text/javascript';
-  script.async = false;
-  script.onload = addStudentPhotos
-  script.src = "https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js";
-  
-  d.getElementsByTagName('head')[0].appendChild(script);
-}(document));
+    img.src = 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=' + fullMatric + '&type=U';
+  }
+}
