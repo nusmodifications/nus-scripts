@@ -24,7 +24,7 @@ var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
 
 // 5. Run the function c.makeAllClaims() . Wait until the alert 'All claims made!' is shown, then press 'OK'.
 
-// 6. You will be brought back to the previous page. Click on the button 'Claim' again and verify that you have 80 hours in total.
+// 6. You will be brought back to the previous page. Click on the button 'Claim' again and verify that you have the right number of hours.
 
 // To delete all claims on the page, run the function c.deleteAllClaims()
 
@@ -64,14 +64,14 @@ var config = {
       activities_list.push({
         activity_type: TUTORIAL, 
         week: week, 
-        day: "MONDAY", 
+        day: 'MONDAY', 
         start_time: '1200', 
         end_time: '1300'
       });
       activities_list.push({
         activity_type: ASSIGNMENT_MARKING, 
         week: week, 
-        day: "SATURDAY", 
+        day: 'SATURDAY', 
         start_time: '1200', 
         end_time: '1600'
       });
@@ -106,24 +106,24 @@ function Claim(config) {
   function createActivity(activity_type, week, day, start_time, end_time) {
     var day_upper = day.toUpperCase();
     try {
-      if (ACTIVITY_DICT[activity_type] == undefined || typeof activity_type != "string") {
-        throw "Activity error: " + activity_type + ". Activity type not supported.";
+      if (ACTIVITY_DICT[activity_type] === undefined || typeof activity_type !== 'string') {
+        throw 'Activity error: ' + activity_type + '. Activity type not supported.';
       }
-      if (typeof week != "number" || week <= 0) {
-        throw "Week error: " + week + ". Week value has to be a positive number.";
+      if (typeof week !== 'number' || week <= 0) {
+        throw 'Week error: ' + week + '. Week value has to be a positive number.';
       }
-      if (DAY_DICT[day_upper] == undefined || typeof day_upper != "string") {
-        throw "Day error: " + day + ". Day value has to be a valid day string.";
+      if (DAY_DICT[day_upper] === undefined || typeof day_upper !== 'string') {
+        throw 'Day error: ' + day + '. Day value has to be a valid day string.';
       }
 
       function checkTime(time) {
         var start_time_hour = time.slice(0,2);
         var start_time_min = time.slice(2);
-        if (typeof time != "string" || 
+        if (typeof time !== 'string' || 
           time.length != 4 ||
           !(parseInt(start_time_hour) >= 0 && parseInt(start_time_hour) <= 23) ||
-          !(start_time_min == "00" || start_time_min == "30")) {
-          throw "Time error: " + time + ". Time has to be string in 24-hr format at half-hour intervals.";
+          !(start_time_min === '00' || start_time_min === '30')) {
+          throw 'Time error: ' + time + '. Time has to be string in 24-hr format at half-hour intervals.';
         }
       }
 
@@ -133,9 +133,9 @@ function Claim(config) {
       var end_time_hour = parseInt(end_time.slice(0,2));
 
       if (start_time_hour > end_time_hour || start_time === end_time) {
-        throw "Time error: end_time: " + end_time + " must be after start_time: " + start_time + ".";
+        throw 'Time error: end_time: ' + end_time + ' must be after start_time: ' + start_time + '.';
       } else if (end_time_hour - start_time_hour > 8) {
-        throw "Time error: " + start_time + " - " + end_time + ". Activity cannot be more than 8 hours.";
+        throw 'Time error: ' + start_time + ' - ' + end_time + '. Activity cannot be more than 8 hours.';
       } 
     } catch (err) {
       error = true;
@@ -207,7 +207,7 @@ Claim.prototype.deleteAllClaims = function() {
       count += 1;
       if (count === $existing_claims.length) {
         alert('All claims deleted! Press OK to continue.');
-        window.location.href = window.location.protocol +'//'+ window.location.host + END_REDIRECT_URL;
+        window.location.href = window.location.protocol + '//' + window.location.host + END_REDIRECT_URL;
       }
     });
   }
