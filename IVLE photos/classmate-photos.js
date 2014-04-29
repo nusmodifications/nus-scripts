@@ -35,23 +35,27 @@
     };
 
     var PHOTO_URL = 'https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=';
-    var NOPHOTO_URL = 'https://ivle.nus.edu.sg/images/nophoto.jpg';
     var TYPES = ['U', 'P', 'X'];
-    
+
+    var swapImage = function (img) {
+        if (!img.alt || img.alt.indexOf('Student Photograph') === -1) {
+            return;
+        }
+        var id = img.id || img.parentNode.parentNode.nextSibling.innerHTML || img.parentNode.parentNode.parentNode.nextSibling.innerHTML;
+        var matricNumber = calculateNUSMatricNumber(id);
+        var originalSrc = img.src;
+        var photoUrlPrefix = PHOTO_URL + matricNumber + '&type=';
+        var typeIndex = 0;
+        img.width = 170;
+        img.height = 227;
+        img.onerror = function () {
+            img.src = typeIndex < 3 ? photoUrlPrefix + TYPES[typeIndex++] : originalSrc;
+        };
+        img.onerror.call();
+    };
+
     var imgs = document.getElementsByTagName('img');
     for (var i = 0; i < imgs.length; i++) {
-        var img = imgs[i];
-        if (img.id && img.src === NOPHOTO_URL) {
-            var matricNumber = calculateNUSMatricNumber(img.id);
-            if (matricNumber) {
-                (function () {
-                    var typeIndex = 0;
-                    img.onerror = function () {
-                        this.src = typeIndex < TYPES.length ? PHOTO_URL + matricNumber + '&type=' + TYPES[typeIndex++] : NOPHOTO_URL;
-                    }
-                    img.onerror.call(img);
-                })();
-            }
-        }
+        swapImage(imgs[i]);
     }
 })();
