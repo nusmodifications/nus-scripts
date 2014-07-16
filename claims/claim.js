@@ -225,5 +225,11 @@ Claim.prototype.makeAllClaims = function() {
   }
 }
 
+//sanity check
+if($('h3:contains("Module")').text().substr(8) != config.module){
+	alert("Ensure that the module in config matches that of this page.") //else you will have invisible claims taking up your time.
+	throw new Error("Incorrect module in config.");
+}
+
 var c = new Claim(config);
 // c.makeAllClaims();
