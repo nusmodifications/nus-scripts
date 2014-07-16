@@ -103,6 +103,13 @@ function Claim(config) {
   
   var that = this;
   
+  // Ensure claiming for correct module!
+  if ($('h3:contains("Module")').text().substr(8) !== config.module) {
+    alert('Ensure that the module in config matches that of this page.');
+    // Else you will have invisible claims taking up your time.
+    throw new Error('Incorrect module in config.');
+  }
+
   function createActivity(activity_type, week, day, start_time, end_time) {
     var day_upper = day.toUpperCase();
     try {
@@ -146,6 +153,7 @@ function Claim(config) {
       that.makeClaim(activity_type, week, day, start_time, end_time);
     };
   }
+
   var activities = config.activities_list_fn();
   this.activities_list = [];
   for (var i = 0; i < activities.length; i++) {
@@ -223,12 +231,6 @@ Claim.prototype.makeAllClaims = function() {
   if (!this.error) {
     this.activities_list[this.ajax_index]();
   }
-}
-
-//sanity check
-if($('h3:contains("Module")').text().substr(8) != config.module){
-	alert("Ensure that the module in config matches that of this page.") //else you will have invisible claims taking up your time.
-	throw new Error("Incorrect module in config.");
 }
 
 var c = new Claim(config);
