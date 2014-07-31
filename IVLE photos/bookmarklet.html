@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>IVLE Photos Bookmarklet</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h1>IVLE Photos Bookmarklet</h1>
+      <p class="lead">This bookmarklet loads student photos in an
+      <a href="https://ivle.nus.edu.sg/">IVLE</a>
+      module's Class Roster page or under its Groups page's tabs
+      (Lecture/Tutorial/Lab Groups).</p>
+
+      <a class="btn btn-warning btn-lg" href="javascript:(function%20()%20{var%20calculateNUSMatricNumber%20=%20function%20(id)%20{var%20matches%20=%20id.toUpperCase().match(/^A\d{7}|U\d{6,7}/);if%20(matches)%20{var%20match%20=%20matches[0];if%20(match[0]%20===%20%27U%27%20&&%20match.length%20===%208)%20{match%20=%20match.slice(0,%203)%20+%20match.slice(4);}var%20weights%20=%20{U:%20[0,%201,%203,%201,%202,%207],A:%20[1,%201,%201,%201,%201,%201]}[match[0]];for%20(var%20i%20=%200,%20sum%20=%200,%20digits%20=%20match.slice(-6);%20i%20<%206;%20i++)%20{sum%20+=%20weights[i]%20*%20digits[i];}return%20match%20+%20%27YXWURNMLJHEAB%27[sum%20%25%2013];}};var%20PHOTO_URL%20=%20%27https://mysoc.nus.edu.sg/mysoc/images/stdphoto.php?matric=%27;var%20TYPES%20=%20[%27U%27,%20%27P%27,%20%27X%27];var%20swapImage%20=%20function%20(img)%20{if%20(!img.alt%20||%20img.alt.indexOf(%27Student%20Photograph%27)%20===%20-1)%20{return;}var%20id%20=%20img.id%20||%20img.parentNode.parentNode.nextSibling.innerHTML%20||%20img.parentNode.parentNode.parentNode.nextSibling.innerHTML;var%20matricNumber%20=%20calculateNUSMatricNumber(id);var%20originalSrc%20=%20img.src;var%20photoUrlPrefix%20=%20PHOTO_URL%20+%20matricNumber%20+%20%27&type=%27;var%20typeIndex%20=%200;img.width%20=%20170;img.height%20=%20227;img.onerror%20=%20function%20()%20{img.src%20=%20typeIndex%20<%203%20?%20photoUrlPrefix%20+%20TYPES[typeIndex++]%20:%20originalSrc;};img.onerror.call();};var%20imgs%20=%20document.getElementsByTagName(%27img%27);for%20(var%20i%20=%200;%20i%20<%20imgs.length;%20i++)%20{swapImage(imgs[i]);}})();">
+        IVLE Photos
+      </a>
+      ← Drag this button to your Bookmarks Bar.
+    </div>
+  </body>
+</html>
