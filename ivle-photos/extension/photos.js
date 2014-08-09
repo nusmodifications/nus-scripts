@@ -61,21 +61,6 @@
     }
   }
 
-
-  function debounce(func, wait, immediate) {
-    var timeout;
-    return function() {
-      var context = this, args = arguments;
-      clearTimeout(timeout);
-      timeout = setTimeout(function() {
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-      }, wait);
-      if (immediate && !timeout) func.apply(context, args);
-    };
-  };
-
-
   var body = document.getElementsByTagName('body');
   body[0].addEventListener('DOMSubtreeModified', function (ev) {
     // TODO: DOMSubtreeModified is triggered multiple times. Should be debounced.
