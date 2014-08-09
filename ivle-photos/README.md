@@ -4,10 +4,10 @@ IVLE Photos
 This script allows you to know your classmates by showing their faces in IVLE. There are 3 ways to use it:
 
 1. Chrome Extension:
-  - Navigate to [chrome://extensions](chrome://extensions) in your browser.
+  - Navigate to chrome://extensions in your browser.
   - Check the **Developer mode** checkbox.
   - Click on **Load unpacked extension** and select the `extension` folder.
-  - Go to any IVLE Class Roster or Groups page and you will see your classmates' photos!
+  - Go to any IVLE **Class Roster** or **Groups** page and you will see your classmates' photos!
 2. Via Developer Console
   - Open up the developer console of your browser.
   - Copy the contents inside `photo.js` and run it.
