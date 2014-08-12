@@ -1,9 +1,11 @@
+![Logo](extension/icon128.png)
+
 IVLE Photos
 =================
 
 This script allows you to know your classmates by showing their faces in IVLE. The 4 ways to use it:
 
-1. Install the Chrome extension:
+1. Install the **"Know Your Classmates"** Chrome extension:
   - Grab it here [https://chrome.google.com/webstore/detail/know-my-classmates/efalkfbaajfiggdnknfdbcpcdigfmceg]
 2. Add the chrome extension from source
   - Navigate to chrome://extensions in your browser.
