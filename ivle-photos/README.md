@@ -3,6 +3,8 @@
 IVLE Photos
 =================
 
+**EDIT**: As of 31/10/2014, IVLE does not render the matric number of students in its HTML anymore. Hence this chrome extension no longer works. On one hand, I'm sad that the extension is broken, but on the other hand, applause for IVLE for finally stepping up security. - Yang Shun
+
 This script allows you to know your classmates by showing their faces in IVLE. The 4 ways to use it:
 
 1. Install the **"Know Your Classmates"** Chrome extension:
