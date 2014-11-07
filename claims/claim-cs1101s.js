@@ -58,9 +58,9 @@ var config = {
     // This is an example of how you can make weekly claims
     // Note that the week value does not support recess and reading weeks.
     //
-    // 2h DG * 11 weeks = 22 hours of tutorial
-    // 2h preparation * 3 weeks = 6 hours of material preparation
-    // 3h grading * 14 weeks = 42 hours of grading
+    // 2h DG * 11 weeks = 22 hours
+    // 2h preparation * 10 weeks = 20 hours
+    // 2h grading * 14 weeks = 28 hours
     //
     // TOTAL: 70 hours
     for (var week = 1; week <= 14; week++) {
@@ -69,19 +69,11 @@ var config = {
         week: week,
         day: 'SATURDAY',
         start_time: '1300',
-        end_time: '1600'
+        end_time: '1500'
       });
 
       if (week === 1 || week === 7 || week === 9) {
         // there was no tutorial in week 1, 7 (recess) and 9 (PH)
-        // use course material preparation instead
-        activities_list.push({
-          activity_type: COURSE_MATERIAL_PREPARATION,
-          week: week,
-          day: 'MONDAY',
-          start_time: '1800',
-          end_time: '2000'
-        });
       } else {
         activities_list.push({
           activity_type: TUTORIAL,
@@ -89,6 +81,16 @@ var config = {
           day: 'TUESDAY',
           start_time: '1400',
           end_time: '1600'
+        });
+      }
+
+      if (week <= 10) {
+        activities_list.push({
+          activity_type: COURSE_MATERIAL_PREPARATION,
+          week: week,
+          day: 'MONDAY',
+          start_time: '1800',
+          end_time: '2000'
         });
       }
     };
