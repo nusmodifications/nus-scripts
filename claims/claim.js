@@ -160,8 +160,20 @@ function Claim(config) {
     var a = activities[i];
     this.activities_list.push(createActivity(a.activity_type, a.week, a.day, a.start_time, a.end_time));
   }
-
+  // sum up existing hours claimed
+  var $existing_claims = $('#claim-info-div table tr');
+  var existing_hours = 0;
+  $existing_claims.each(function(){
+    var row = $(this);
+    if (row.find('input[name=action]').val() === 'DELETE') {
+      var hours = parseFloat(row.find('td:eq(5)').text());
+      if (!isNaN(hours)) {
+        existing_hours += hours;
+      }
+    }
+  })
   this.ajax_index = 0; // index to keep track of the current ajax call
+  console.log('Current hours claimed: ' + existing_hours);
   console.log('Claim object successfully created. Run c.makeAllClaims() to start.');
 }
 
