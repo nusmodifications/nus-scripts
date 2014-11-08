@@ -16,7 +16,8 @@ A collection of scripts to make the life of SOC students easier and better.
 
 Many thanks to the following people who have contributed to these scripts in one way or another:
 
-- Tay Yang Shun [(http://github.com/yangshun)](http://github.com/yangshun)
-- Camillus Gerard Cai [(http://github.com/cgcai)](http://github.com/cgcai)
-- Eu Beng Hee [(http://github.com/ahbeng)](http://github.com/ahbeng)
-- Eldric Liew [(http://github.com/blackening)](http://github.com/blackening)
+- Tay Yang Shun [(https://github.com/yangshun)](https://github.com/yangshun)
+- Camillus Gerard Cai [(https://github.com/cgcai)](https://github.com/cgcai)
+- Eu Beng Hee [(https://github.com/ahbeng)](https://github.com/ahbeng)
+- Eldric Liew [(https://github.com/blackening)](https://github.com/blackening)
+- Chen Minqi [(https://github.com/BenMQ)](https://github.com/BenMQ)
