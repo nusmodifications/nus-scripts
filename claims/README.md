@@ -44,7 +44,7 @@ Configuration
 
 **Activity Object**
 
-- `activity_type`: Use the pre-defined constants: **Config.ASSIGNMENT_MARKING** | **Config.COURSE_MATERIAL_PREPARATION** | **Config.TUTORIAL**
+- `activity_type`: Use the pre-defined constants: **Claim.ASSIGNMENT_MARKING** | **Claim.COURSE_MATERIAL_PREPARATION** | **Claim.TUTORIAL**
 - `week`: A positive integer, or string `'RECESS'`, indicating the week number of the sem. This is to facilitate convenient calculation of the date of activity. The script only supports activities performed from week 1 onwards. Note that reading week is simply Week 14.
 - `day`: A string, with one of these values: **"MONDAY"**, **"TUESDAY"**, **"WEDNESDAY"**, **"THURSDAY"**, **"FRIDAY"**, **"SATURDAY"**, **"SUNDAY"**.
 - `start_time`: A 4-character string, representing the starting time of the activity in 24-hour format. The minute value has to be 00 or 30.
