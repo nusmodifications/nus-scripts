@@ -123,8 +123,8 @@ function Claim(config) {
       if (ACTIVITY_DICT[activity_type] === undefined || typeof activity_type !== 'string') {
         throw 'Activity error: ' + activity_type + '. Activity type not supported.';
       }
-      if (typeof week !== 'number' || week <= 0) {
-        throw 'Week error: ' + week + '. Week value has to be a positive number.';
+      if (typeof week !== 'number' && week !== 'RECESS' || week <= 0) {
+        throw 'Week error: ' + week + '. Week value has to be a positive number or RECESS.';
       }
       if (DAY_DICT[day_upper] === undefined || typeof day_upper !== 'string') {
         throw 'Day error: ' + day + '. Day value has to be a valid day string.';
@@ -186,7 +186,11 @@ function Claim(config) {
 
 Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_time) {
   var day_num = DAY_DICT[day];
-  var number_of_days = (week < 7 ? week - 1 : week)*7 + day_num;
+  if (week === 'RECESS') {
+    var number_of_days = 6*7 + day_num;
+  } else {
+    var number_of_days = (week < 7 ? week - 1 : week)*7 + day_num;
+  }
   var activity_date = new Date();
   activity_date.setTime(this.first_day_of_sem.getTime() + (number_of_days * 24 * 60 * 60 * 1000));
   var claim_date_array = activity_date.toDateString().split(' ');

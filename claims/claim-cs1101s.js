@@ -63,7 +63,7 @@ var config = {
     // 2h grading * 14 weeks = 28 hours
     //
     // TOTAL: 70 hours
-    for (var week = 1; week <= 14; week++) {
+    for (var week = 1; week <= 13; week++) {
       activities_list.push({
         activity_type: ASSIGNMENT_MARKING,
         week: week,
@@ -72,8 +72,8 @@ var config = {
         end_time: '1500'
       });
 
-      if (week === 1 || week === 7 || week === 9) {
-        // there was no tutorial in week 1, 7 (recess) and 9 (PH)
+      if (week === 1 || week === 8) {
+        // there was no tutorial in week 1 and 8 (PH)
       } else {
         activities_list.push({
           activity_type: TUTORIAL,
@@ -94,7 +94,13 @@ var config = {
         });
       }
     };
-
+    activities_list.push({
+      activity_type: ASSIGNMENT_MARKING,
+      week: 'RECESS',
+      day: 'SATURDAY',
+      start_time: '1300',
+      end_time: '1500'
+    });
     return activities_list;
   }
 }
@@ -134,8 +140,8 @@ function Claim(config) {
       if (ACTIVITY_DICT[activity_type] === undefined || typeof activity_type !== 'string') {
         throw 'Activity error: ' + activity_type + '. Activity type not supported.';
       }
-      if (typeof week !== 'number' || week <= 0) {
-        throw 'Week error: ' + week + '. Week value has to be a positive number.';
+      if (typeof week !== 'number' && week !== 'RECESS' || week <= 0) {
+        throw 'Week error: ' + week + '. Week value has to be a positive number or RECESS.';
       }
       if (DAY_DICT[day_upper] === undefined || typeof day_upper !== 'string') {
         throw 'Day error: ' + day + '. Day value has to be a valid day string.';
@@ -197,7 +203,11 @@ function Claim(config) {
 
 Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_time) {
   var day_num = DAY_DICT[day];
-  var number_of_days = (week < 7 ? week - 1 : week)*7 + day_num;
+  if (week === 'RECESS') {
+    var number_of_days = 6*7 + day_num;
+  } else {
+    var number_of_days = (week < 7 ? week - 1 : week)*7 + day_num;
+  }
   var activity_date = new Date();
   activity_date.setTime(this.first_day_of_sem.getTime() + (number_of_days * 24 * 60 * 60 * 1000));
   var claim_date_array = activity_date.toDateString().split(' ');
