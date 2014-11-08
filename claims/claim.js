@@ -18,7 +18,7 @@ var Claim = function() {
   ACTIVITY_DICT[ASSIGNMENT_MARKING] = '003';
   ACTIVITY_DICT[COURSE_MATERIAL_PREPARATION] = '006';
   ACTIVITY_DICT[TUTORIAL] = 'T';
-  // CTIVITY_DICT[CONSULTATION] = 'C';
+  // ACTIVITY_DICT[CONSULTATION] = 'C';
 
   var DAY_DICT = { 'MONDAY': 0, 'TUESDAY': 1, 'WEDNESDAY': 2, 'THURSDAY': 3, 'FRIDAY': 4, 'SATURDAY': 5, 'SUNDAY': 6 };
 
@@ -28,6 +28,8 @@ var Claim = function() {
     this.remarks = config.duties;
     this.first_day_of_sem = config.first_day_of_sem;
     this.error = false;
+    this.proposed_hours = 0;
+    this.existing_hours = 0;
 
     var that = this;
 
@@ -66,12 +68,16 @@ var Claim = function() {
         checkTime(end_time);
         var start_time_hour = parseInt(start_time.slice(0,2));
         var end_time_hour = parseInt(end_time.slice(0,2));
+        var start_time_min = parseInt(start_time.slice(2));
+        var end_time_min = parseInt(start_time.slice(2));
 
         if (start_time_hour > end_time_hour || start_time === end_time) {
           throw 'Time error: end_time: ' + end_time + ' must be after start_time: ' + start_time + '.';
         } else if (end_time_hour - start_time_hour > 8) {
           throw 'Time error: ' + start_time + ' - ' + end_time + '. Activity cannot be more than 8 hours.';
         }
+
+        that.proposed_hours += end_time_hour - start_time_hour + (end_time_min - start_time_min)/60
       } catch (err) {
         error = true;
         console.log(err);
@@ -90,21 +96,24 @@ var Claim = function() {
     }
     // sum up existing hours claimed
     var $existing_claims = $('#claim-info-div table tr');
-    var existing_hours = 0;
     $existing_claims.each(function(){
       var row = $(this);
       if (row.find('input[name=action]').val() === 'DELETE') {
         var hours = parseFloat(row.find('td:eq(5)').text());
         if (!isNaN(hours)) {
-          existing_hours += hours;
+          that.existing_hours += hours;
         }
       }
     })
     this.ajax_index = 0; // index to keep track of the current ajax call
-    console.log('Current hours claimed: ' + existing_hours);
+    console.log('Current hours claimed: ' + this.existing_hours);
+    console.log('Proposed hours: ' + this.proposed_hours);
     console.log('Claim object successfully created. Run c.makeAllClaims() to start.');
   }
 
+  Claim.ASSIGNMENT_MARKING = ASSIGNMENT_MARKING;
+  Claim.COURSE_MATERIAL_PREPARATION = COURSE_MATERIAL_PREPARATION;
+  Claim.TUTORIAL = TUTORIAL;
   Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_time) {
     var day_num = DAY_DICT[day];
     if (week === 'RECESS') {
@@ -172,7 +181,11 @@ var Claim = function() {
   }
 
   Claim.prototype.makeAllClaims = function() {
-    if (!this.error) {
+    if (!this.error && confirm("NUSSTU ID: " + this.student_id + "\n" +
+            "Module: " + this.module + "\n" +
+            "Existing Claims: " + this.existing_hours + " hours\n\n" +
+            "You are about to claim an additional " + this.proposed_hours +
+            " hours,\nARE YOU SURE?")) {
       this.activities_list[this.ajax_index]();
     }
   }
