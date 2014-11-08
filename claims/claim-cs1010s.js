@@ -30,7 +30,7 @@ var config = {
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY13/14 Sem 1, it's Monday, Aug 12
-  first_day_of_sem: new Date(2014,0,13),
+  first_day_of_sem: new Date(2014,7,11),
   // in case you want to customize the duties field for each activity
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
@@ -42,8 +42,28 @@ var config = {
   // the following function should return a list of claim objects that you want to make
   activities_list_fn: function() {
     var claims_list = [];
-    // Course prep: 20 hours
-    for (var week = 1; week <= 5; week++) {
+
+    // Course prep: 18 (+4) hours
+    // 1 class tutors to remove this first loop
+    for(var week = 1; week <= 4; week++) {
+      claims_list.push({
+        activity_type: Claim.COURSE_MATERIAL_PREPARATION,
+        week: week,
+        day: "SATURDAY",
+        start_time: '1600',
+        end_time: '1700'
+      })
+    }
+    for (var week = 1; week <= 12; week++) {
+      claims_list.push({
+        activity_type: Claim.COURSE_MATERIAL_PREPARATION,
+        week: week,
+        day: "SATURDAY",
+        start_time: '1730',
+        end_time: '1800'
+      });
+    }
+    for (var week = 1; week <= 12; week++) {
       claims_list.push({
         activity_type: Claim.COURSE_MATERIAL_PREPARATION,
         week: week,
@@ -51,30 +71,36 @@ var config = {
         start_time: '1100',
         end_time: '1200'
       });
-      claims_list.push({
-        activity_type: Claim.CONSULTATION,
-        week: week,
-        day: "TUESDAY",
-        start_time: '1600',
-        end_time: '1700'
-      });
     }
-
-    // Weekly stuff (Tutorials and Assignments Marking: 20 + 40 = 60 hours)
-    for (var week = 3; week <= 13; week++) {
-      claims_list.push({
-        activity_type: Claim.TUTORIAL,
-        week: week,
-        day: "MONDAY",
-        start_time: '1300',
-        end_time: '1400'
-      });
+    // 1-class tutors to reduce to 1hr
+    for (var week = 1; week <= 12; week++) {
       claims_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
         week: week,
         day: "SATURDAY",
-        start_time: '1200',
+        start_time: '1600',
+        end_time: '1800'
+      });
+    }
+
+    // Weekly stuff (Fill in your tutorial timeslots)
+    for (var week = 3; week <= 13; week++) {
+      if(week === 7) { // no tutorial for week 7
+        continue
+      }
+      claims_list.push({
+        activity_type: Claim.TUTORIAL,
+        week: week,
+        day: "MONDAY",
+        start_time: '1500',
         end_time: '1600'
+      });
+      claims_list.push({
+        activity_type: Claim.TUTORIAL,
+        week: week,
+        day: "TUESDAY",
+        start_time: '1400',
+        end_time: '1500'
       });
     };
 
