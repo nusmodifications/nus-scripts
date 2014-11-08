@@ -37,11 +37,11 @@ var config = {
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY13/14 Sem 2, it's Monday, Jan 13
-  first_day_of_sem: new Date(2014,0,13),
+  first_day_of_sem: new Date(2014,7,11),
   // Your student ID
-  student_id: 'a0073063',
+  student_id: 'a0099314',
   // Module you are claiming hours for
-  module: 'CS1010S',
+  module: 'CS1101S',
   // In case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
@@ -52,29 +52,47 @@ var config = {
   },
 
   // The following function should return a list of claim objects that you want to make
-  activities_list_fn: function() {  
+  activities_list_fn: function() {
     var activities_list = [];
 
     // This is an example of how you can make weekly claims
     // Note that the week value does not support recess and reading weeks.
-    for (var week = 3; week <= 13; week++) {
-      if (week === 7) { // there was no tutorial in week 7
-        continue;
+    //
+    // 2h DG * 11 weeks = 22 hours
+    // 2h preparation * 10 weeks = 20 hours
+    // 2h grading * 14 weeks = 28 hours
+    //
+    // TOTAL: 70 hours
+    for (var week = 1; week <= 14; week++) {
+      activities_list.push({
+        activity_type: ASSIGNMENT_MARKING,
+        week: week,
+        day: 'SATURDAY',
+        start_time: '1300',
+        end_time: '1500'
+      });
+
+      if (week === 1 || week === 7 || week === 9) {
+        // there was no tutorial in week 1, 7 (recess) and 9 (PH)
+      } else {
+        activities_list.push({
+          activity_type: TUTORIAL,
+          week: week,
+          day: 'TUESDAY',
+          start_time: '1400',
+          end_time: '1600'
+        });
       }
-      activities_list.push({
-        activity_type: TUTORIAL, 
-        week: week, 
-        day: 'MONDAY', 
-        start_time: '1200', 
-        end_time: '1300'
-      });
-      activities_list.push({
-        activity_type: ASSIGNMENT_MARKING, 
-        week: week, 
-        day: 'SATURDAY', 
-        start_time: '1200', 
-        end_time: '1600'
-      });
+
+      if (week <= 10) {
+        activities_list.push({
+          activity_type: COURSE_MATERIAL_PREPARATION,
+          week: week,
+          day: 'MONDAY',
+          start_time: '1800',
+          end_time: '2000'
+        });
+      }
     };
 
     return activities_list;
@@ -100,9 +118,9 @@ function Claim(config) {
   this.remarks = config.duties;
   this.first_day_of_sem = config.first_day_of_sem;
   this.error = false;
-  
+
   var that = this;
-  
+
   // Ensure claiming for correct module!
   if ($('h3:contains("Module")').text().substr(8) !== config.module) {
     alert('Ensure that the module in config matches that of this page.');
@@ -126,7 +144,7 @@ function Claim(config) {
       function checkTime(time) {
         var start_time_hour = time.slice(0,2);
         var start_time_min = time.slice(2);
-        if (typeof time !== 'string' || 
+        if (typeof time !== 'string' ||
           time.length != 4 ||
           !(parseInt(start_time_hour) >= 0 && parseInt(start_time_hour) <= 23) ||
           !(start_time_min === '00' || start_time_min === '30')) {
@@ -143,13 +161,13 @@ function Claim(config) {
         throw 'Time error: end_time: ' + end_time + ' must be after start_time: ' + start_time + '.';
       } else if (end_time_hour - start_time_hour > 8) {
         throw 'Time error: ' + start_time + ' - ' + end_time + '. Activity cannot be more than 8 hours.';
-      } 
+      }
     } catch (err) {
       error = true;
       console.log(err);
     }
 
-    return function() { 
+    return function() {
       that.makeClaim(activity_type, week, day, start_time, end_time);
     };
   }
@@ -216,7 +234,7 @@ Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_t
 Claim.prototype.deleteAllClaims = function() {
   var that = this;
   function deleteClaim(claim_id) {
-    $.post(POST_URL, { 
+    $.post(POST_URL, {
       mod_c: that.module,
       claim_id: claim_id,
       action: 'DELETE',
