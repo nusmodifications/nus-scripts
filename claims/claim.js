@@ -1,4 +1,4 @@
-var Claim = function() {
+var Claim = function () {
   // ***********************************************************
   // REQUIRED CONSTANTS, DO NOT MODIFY
   // ***********************************************************
@@ -22,7 +22,7 @@ var Claim = function() {
 
   var DAY_DICT = { 'MONDAY': 0, 'TUESDAY': 1, 'WEDNESDAY': 2, 'THURSDAY': 3, 'FRIDAY': 4, 'SATURDAY': 5, 'SUNDAY': 6 };
 
-  function Claim(config) {
+  function Claim (config) {
     this.student_id = config.student_id.toLowerCase();
     this.module = config.module;
     this.remarks = config.duties;
@@ -40,7 +40,7 @@ var Claim = function() {
       throw new Error('Incorrect module in config.');
     }
 
-    function createActivity(activity_type, week, day, start_time, end_time) {
+    function createActivity (activity_type, week, day, start_time, end_time) {
       var day_upper = day.toUpperCase();
       try {
         if (ACTIVITY_DICT[activity_type] === undefined || typeof activity_type !== 'string') {
@@ -53,21 +53,21 @@ var Claim = function() {
           throw 'Day error: ' + day + '. Day value has to be a valid day string.';
         }
 
-        function checkTime(time) {
-          var start_time_hour = time.slice(0,2);
-          var start_time_min = time.slice(2);
+        function checkTime (time) {
+          var time_hour = time.slice(0, 2);
+          var time_min = time.slice(2);
           if (typeof time !== 'string' ||
             time.length != 4 ||
-            !(parseInt(start_time_hour) >= 0 && parseInt(start_time_hour) <= 23) ||
-            !(start_time_min === '00' || start_time_min === '30')) {
+            !(parseInt(time_hour) >= 0 && parseInt(time_hour) <= 23) ||
+            !(time_min === '00' || time_min === '30')) {
             throw 'Time error: ' + time + '. Time has to be string in 24-hr format at half-hour intervals.';
           }
         }
 
         checkTime(start_time);
         checkTime(end_time);
-        var start_time_hour = parseInt(start_time.slice(0,2));
-        var end_time_hour = parseInt(end_time.slice(0,2));
+        var start_time_hour = parseInt(start_time.slice(0, 2));
+        var end_time_hour = parseInt(end_time.slice(0, 2));
         var start_time_min = parseInt(start_time.slice(2));
         var end_time_min = parseInt(end_time.slice(2));
 
@@ -77,13 +77,13 @@ var Claim = function() {
           throw 'Time error: ' + start_time + ' - ' + end_time + '. Activity cannot be more than 8 hours.';
         }
 
-        that.proposed_hours += end_time_hour - start_time_hour + (end_time_min - start_time_min)/60
+        that.proposed_hours += end_time_hour - start_time_hour + (end_time_min - start_time_min)/60;
       } catch (err) {
         error = true;
         console.log(err);
       }
 
-      return function() {
+      return function () {
         that.makeClaim(activity_type, week, day, start_time, end_time);
       };
     }
@@ -94,17 +94,19 @@ var Claim = function() {
       var a = activities[i];
       this.activities_list.push(createActivity(a.activity_type, a.week, a.day, a.start_time, a.end_time));
     }
+
     // sum up existing hours claimed
     var $existing_claims = $('#claim-info-div table tr');
-    $existing_claims.each(function(){
-      var row = $(this);
-      if (row.find('input[name=action]').val() === 'DELETE') {
+    $existing_claims.each(function () {
+      var $row = $(this);
+      if ($row.find('input[name=action]').val() === 'DELETE') {
         var hours = parseFloat(row.find('td:eq(5)').text());
         if (!isNaN(hours)) {
           that.existing_hours += hours;
         }
       }
-    })
+    });
+
     this.ajax_index = 0; // index to keep track of the current ajax call
     console.log('Current hours claimed: ' + this.existing_hours);
     console.log('Proposed hours: ' + this.proposed_hours);
@@ -114,7 +116,8 @@ var Claim = function() {
   Claim.ASSIGNMENT_MARKING = ASSIGNMENT_MARKING;
   Claim.COURSE_MATERIAL_PREPARATION = COURSE_MATERIAL_PREPARATION;
   Claim.TUTORIAL = TUTORIAL;
-  Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_time) {
+
+  Claim.prototype.makeClaim = function (activity_type, week, day, start_time, end_time) {
     var day_num = DAY_DICT[day];
     if (week === 'RECESS') {
       var number_of_days = 6*7 + day_num;
@@ -141,7 +144,7 @@ var Claim = function() {
     }
 
     var that = this;
-    $.post(POST_URL, post_data, function(data) {
+    $.post(POST_URL, post_data, function (data) {
       console.log('Successfully added ' + activity_type + ' for ' + claim_date_str);
       that.ajax_index += 1;
       if (that.ajax_index < that.activities_list.length) {
@@ -154,16 +157,16 @@ var Claim = function() {
     });
   };
 
-  Claim.prototype.deleteAllClaims = function() {
+  Claim.prototype.deleteAllClaims = function () {
     var that = this;
-    function deleteClaim(claim_id) {
+    function deleteClaim (claim_id) {
       $.post(POST_URL, {
         mod_c: that.module,
         claim_id: claim_id,
         action: 'DELETE',
         std_id: that.student_id,
         submit: 'DELETE + Save as Draft'
-      }, function(data) {
+      }, function (data) {
         console.log('Claim ' + claim_id + ' deleted');
         count += 1;
         if (count === $existing_claims.length) {
@@ -175,17 +178,17 @@ var Claim = function() {
 
     var count = 0;
     var $existing_claims = $('#claim-info-div table [name="claim_id"]');
-    $existing_claims.each(function() {
+    $existing_claims.each(function () {
       deleteClaim(this.value);
     });
   }
 
-  Claim.prototype.makeAllClaims = function() {
-    if (!this.error && confirm("NUSSTU ID: " + this.student_id + "\n" +
-            "Module: " + this.module + "\n" +
-            "Existing Claims: " + this.existing_hours + " hours\n\n" +
-            "You are about to claim an additional " + this.proposed_hours +
-            " hours,\nARE YOU SURE?")) {
+  Claim.prototype.makeAllClaims = function () {
+    if (!this.error && confirm('NUSSTU ID: ' + this.student_id + '\n' +
+            'Module: ' + this.module + '\n' +
+            'Existing Claims: ' + this.existing_hours + ' hours\n\n' +
+            'You are about to claim an additional ' + this.proposed_hours +
+            ' hours,\nARE YOU SURE?')) {
       this.activities_list[this.ajax_index]();
     }
   }
