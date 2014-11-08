@@ -21,3 +21,4 @@ Many thanks to the following people who have contributed to these scripts in one
 - Eu Beng Hee [(https://github.com/ahbeng)](https://github.com/ahbeng)
 - Eldric Liew [(https://github.com/blackening)](https://github.com/blackening)
 - Chen Minqi [(https://github.com/BenMQ)](https://github.com/BenMQ)
+- Emmanuel Goh [(https://github.com/emman27)](https://github.com/emman27)
