@@ -100,7 +100,7 @@ var Claim = function () {
     $existing_claims.each(function () {
       var $row = $(this);
       if ($row.find('input[name=action]').val() === 'DELETE') {
-        var hours = parseFloat(row.find('td:eq(5)').text());
+        var hours = parseFloat($row.find('td:eq(5)').text());
         if (!isNaN(hours)) {
           that.existing_hours += hours;
         }
@@ -186,9 +186,10 @@ var Claim = function () {
   Claim.prototype.makeAllClaims = function () {
     if (!this.error && confirm('NUSSTU ID: ' + this.student_id + '\n' +
             'Module: ' + this.module + '\n' +
-            'Existing Claims: ' + this.existing_hours + ' hours\n\n' +
+            'Existing Claims: ' + this.existing_hours + ' hours\n' +
+            'Proposed Claims: ' + this.proposed_hours + ' hours\n\n' +
             'You are about to claim an additional ' + this.proposed_hours +
-            ' hours,\nARE YOU SURE?')) {
+            ' hours,\nPress OK to confirm.')) {
       this.activities_list[this.ajax_index]();
     }
   }
