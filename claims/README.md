@@ -14,7 +14,7 @@ Quickstart
 3. Access the page titled **'Student Claim Submission'**, [https://mysoc.nus.edu.sg/~tssclaim/tutor/teach_claim.php?page=1](https://mysoc.nus.edu.sg/~tssclaim/tutor/teach_claim.php?page=1) and click on the **'Claim'** button under your module. You should see the interface for you to enter details of the teaching claim activity.
 4. Open the JavaScript console of your browser by pressing **Ctrl/Cmd + Shift/Option + J**.
 5. Paste all the code in `claim.js` in the console and press enter. You should see the following message:
-    
+
         Claim object successfully created. Run c.makeAllClaims() to start.
 
 
@@ -44,11 +44,11 @@ Configuration
 
 **Activity Object**
 
-- `activity_type`: Use the pre-defined constants: **ASSIGNMENT_MARKING** | **COURSE_MATERIAL_PREPARATION** | **TUTORIAL** | **CONSULTATION**
+- `activity_type`: Use the pre-defined constants: **Config.ASSIGNMENT_MARKING** | **Config.COURSE_MATERIAL_PREPARATION** | **Config.TUTORIAL**
 - `week`: A positive integer, or string `'RECESS'`, indicating the week number of the sem. This is to facilitate convenient calculation of the date of activity. The script only supports activities performed from week 1 onwards. Note that reading week is simply Week 14.
 - `day`: A string, with one of these values: **"MONDAY"**, **"TUESDAY"**, **"WEDNESDAY"**, **"THURSDAY"**, **"FRIDAY"**, **"SATURDAY"**, **"SUNDAY"**.
 - `start_time`: A 4-character string, representing the starting time of the activity in 24-hour format. The minute value has to be 00 or 30.
-- `end_time`: Similar to `start_time`, but represents the ending time of the activity. 
+- `end_time`: Similar to `start_time`, but represents the ending time of the activity.
 
 
 Documentation
@@ -59,15 +59,15 @@ After pasting the code from `claims.js`, a global claims variable called `c` wil
 ##### Claiming #####
 
 To make the claims, run the function:
-   
+
     c.makeAllClaims();
 
 ##### Deletion #####
 
-To delete all claims on the page, run the function 
-    
+To delete all claims on the page, run the function
+
     c.deleteAllClaims();
 
 Disclaimer
 --
-NUSModifications is in no way responsible for any misfortunes or claims rejection that result from the use of the claims script. You are advised to read the instructions carefully before using it so as to reduce the likelihood of making errors.
+NUSModifications is in no way responsible for any misfortunes or claims rejection that result from the use of the claims script. You are advised to read the instructions carefully before using it, and manually verify the created entries, so as to reduce the likelihood of making errors.
