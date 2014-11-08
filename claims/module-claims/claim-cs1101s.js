@@ -23,25 +23,24 @@
 // ***********************************************************
 
 var config = {
-  // Your NUSSTU ID, such as a0099999
-  student_id: prompt("Your NUSSTUID, such as a0099999"),
+  // Your NUSSTU ID, such as a0012345
+  student_id: prompt('Your NUSSTU ID, such as a0012345'),
   // Module you are claiming hours for, such as CS1101S
   module: 'CS1101S',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
-  // This should be the semester's week 1. For AY13/14 Sem 2, it's Monday, Jan 13
-  first_day_of_sem: new Date(2014,7,11),
+  // This should be the semester's week 1. For AY14/15 Sem 2, it's Monday, Jan 13
+  first_day_of_sem: new Date(2014, 7, 11),
   // In case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
     'Course Material Preparation': 'Prepared course materials',
-    'Tutorial': 'Conducted tutorial',
-    'Consultation with students': 'Had consultation with students'
+    'Tutorial': 'Conducted tutorial'    
   },
 
   // The following function should return a list of claim objects that you want to make
-  activities_list_fn: function() {
+  activities_list_fn: function () {
     var activities_list = [];
 
     // 2h DG * 11 weeks = 22 hours
@@ -79,7 +78,8 @@ var config = {
           end_time: '2000'
         });
       }
-    };
+    }
+
     activities_list.push({
       activity_type: Claim.ASSIGNMENT_MARKING,
       week: 'RECESS',
@@ -89,7 +89,7 @@ var config = {
     });
     return activities_list;
   }
-}
+};
 
 // ***********************************************************
 // DO NOT CHANGE THE BOTTOM UNLESS YOU KNOW WHAT YOU ARE DOING
@@ -98,12 +98,12 @@ var config = {
 var core_script = 'https://rawgit.com/nusmodifications/nus-soc-scripts/master/claims/claim.js';
 var c = undefined;
 $.getScript(core_script)
-  .done(function(){
+  .done(function () {
     c = new Claim(config);
   })
-  .fail(function( jqxhr, settings, exception ) {
-    console.log("Error loading script");
+  .fail(function (jqxhr, settings, exception) {
+    console.log('Error loading script');
     console.log(jqxhr);
     console.log(exception);
-  })
+  });
 // c.makeAllClaims();

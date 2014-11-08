@@ -23,61 +23,61 @@
 // ***********************************************************
 
 var config = {
-  // Your NUSSTU ID, such as a0099999
-  student_id: prompt("Your NUSSTUID, such as a0099999"),
+  // Your NUSSTU ID, such as a0012345
+  student_id: prompt('Your NUSSTU ID, such as a0012345'),
   // Module you are claiming hours for, such as CS1101S
   module: 'CS1010S',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
-  // This should be the semester's week 1. For AY13/14 Sem 1, it's Monday, Aug 12
-  first_day_of_sem: new Date(2014,7,11),
-  // in case you want to customize the duties field for each activity
+  // This should be the semester's week 1. For AY14/15 Sem 1, it's Monday, Aug 12
+  first_day_of_sem: new Date(2014, 7, 11),
+  // In case you want to customize the duties field for each activity
+  // Do not modify the keys
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
     'Course Material Preparation': 'Prepared course materials',
-    'Tutorial': 'Conducted tutorial',
-    'Consultation with students': 'Had consultation with students'
+    'Tutorial': 'Conducted tutorial'
   },
 
-  // the following function should return a list of claim objects that you want to make
-  activities_list_fn: function() {
-    var claims_list = [];
+  // The following function should return a list of claim objects that you want to make
+  activities_list_fn: function () {
+    var activities_list = [];
 
     // Course prep: 18 (+4) hours
     // 1 class tutors to remove this first loop
     for(var week = 1; week <= 4; week++) {
-      claims_list.push({
+      activities_list.push({
         activity_type: Claim.COURSE_MATERIAL_PREPARATION,
         week: week,
-        day: "SATURDAY",
+        day: 'SATURDAY',
         start_time: '1600',
         end_time: '1700'
       })
     }
     for (var week = 1; week <= 12; week++) {
-      claims_list.push({
+      activities_list.push({
         activity_type: Claim.COURSE_MATERIAL_PREPARATION,
         week: week,
-        day: "SATURDAY",
+        day: 'SATURDAY',
         start_time: '1730',
         end_time: '1800'
       });
     }
     for (var week = 1; week <= 12; week++) {
-      claims_list.push({
+      activities_list.push({
         activity_type: Claim.COURSE_MATERIAL_PREPARATION,
         week: week,
-        day: "MONDAY",
+        day: 'MONDAY',
         start_time: '1100',
         end_time: '1200'
       });
     }
     // 1-class tutors to reduce to 1hr
     for (var week = 1; week <= 12; week++) {
-      claims_list.push({
+      activities_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
         week: week,
-        day: "SATURDAY",
+        day: 'SATURDAY',
         start_time: '1600',
         end_time: '1800'
       });
@@ -88,26 +88,25 @@ var config = {
       if(week === 7) { // no tutorial for week 7
         continue
       }
-      claims_list.push({
+      activities_list.push({
         activity_type: Claim.TUTORIAL,
         week: week,
-        day: "MONDAY",
+        day: 'MONDAY',
         start_time: '1500',
         end_time: '1600'
       });
-      claims_list.push({
+      activities_list.push({
         activity_type: Claim.TUTORIAL,
         week: week,
-        day: "TUESDAY",
+        day: 'TUESDAY',
         start_time: '1400',
         end_time: '1500'
       });
-    };
+    }
 
-    return claims_list;
+    return activities_list;
   }
-}
-
+};
 
 // ***********************************************************
 // DO NOT CHANGE THE BOTTOM UNLESS YOU KNOW WHAT YOU ARE DOING
@@ -116,12 +115,12 @@ var config = {
 var core_script = 'https://rawgit.com/nusmodifications/nus-soc-scripts/master/claims/claim.js';
 var c = undefined;
 $.getScript(core_script)
-  .done(function(){
+  .done(function () {
     c = new Claim(config);
   })
-  .fail(function( jqxhr, settings, exception ) {
-    console.log("Error loading script");
+  .fail(function (jqxhr, settings, exception) {
+    console.log('Error loading script');
     console.log(jqxhr);
     console.log(exception);
-  })
+  });
 // c.makeAllClaims();

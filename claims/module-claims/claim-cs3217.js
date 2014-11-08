@@ -13,7 +13,7 @@
 
 // 5. Run the function c.makeAllClaims() . Wait until the alert 'All claims made!' is shown, then press 'OK'.
 
-// 6. You will be brought back to the previous page. Click on the button 'Claim' again and verify that you have the right number of hours.
+// 6. You will be brought back to the previous page. Click on the button 'Claim' again and verify that you have 80 hours in total.
 
 // To delete all claims on the page, run the function c.deleteAllClaims()
 
@@ -23,60 +23,64 @@
 // ***********************************************************
 
 var config = {
-  // Your NUSSTU ID, such as a0099999
-  student_id: prompt("Your NUSSTUID, such as a0099999"),
+  // Your NUSSTU ID, such as a0012345
+  student_id: prompt('Your NUSSTU ID, such as a0012345'),
   // Module you are claiming hours for, such as CS1101S
-  module: 'CS3216',
+  module: 'CS3217',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY13/14 Sem 2, it's Monday, Jan 13
-  first_day_of_sem: new Date(2014,7,11),
-  // In case you want to customize the duties field for each activity
+  first_day_of_sem: new Date(2014, 0, 13),
+  // in case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
-    'Course Material Preparation': 'Prepared course materials',
-    'Tutorial': 'Conducted workshop',
-    'Consultation with students': 'Had consultation with students'
+    'Course Material Preparation': 'Prepared problem sets',
+    'Tutorial': 'Conducted tutorial'
   },
 
-  // The following function should return a list of claim objects that you want to make
-  activities_list_fn: function() {
+  // the following function should return a list of claim objects that you want to make
+  activities_list_fn: function () {
     var activities_list = [];
 
-    // 4*2 = 8h tutorial
-    // 4*2 = 8h course material preparation
-    // 4*2 = 8h assignment grading
-    for (var week = 1; week <= 2; week ++) {
+    for (var week = 1; week <= 2; week++) {
       activities_list.push({
-        activity_type: Claim.TUTORIAL,
+        activity_type: Claim.COURSE_MATERIAL_PREPARATION,
         week: week,
-        day: 'SATURDAY',
-        start_time: '0900',
-        end_time: '1300'
+        day: 'MONDAY',
+        start_time: '1200',
+        end_time: '1700'
       });
       activities_list.push({
         activity_type: Claim.COURSE_MATERIAL_PREPARATION,
         week: week,
-        day: 'SUNDAY',
-        start_time: '1500',
-        end_time: '1900'
+        day: 'TUESDAY',
+        start_time: '1200',
+        end_time: '1700'
       });
     }
-    for (var week = 5; week <= 11; week+=2) {
+
+    activities_list.push({
+      activity_type: Claim.ASSIGNMENT_MARKING,
+      week: 2,
+      day: 'SATURDAY',
+      start_time: '1200',
+      end_time: '1600'
+    });
+
+    for (var week = 3; week <= 6; week++) {
       activities_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
         week: week,
-        day: 'MONDAY',
-        start_time: '1700',
-        end_time: '1900'
+        day: 'SATURDAY',
+        start_time: '1200',
+        end_time: '1700'
       });
     };
 
     return activities_list;
   }
-}
-
+};
 
 // ***********************************************************
 // DO NOT CHANGE THE BOTTOM UNLESS YOU KNOW WHAT YOU ARE DOING
@@ -85,12 +89,12 @@ var config = {
 var core_script = 'https://rawgit.com/nusmodifications/nus-soc-scripts/master/claims/claim.js';
 var c = undefined;
 $.getScript(core_script)
-  .done(function(){
+  .done(function () {
     c = new Claim(config);
   })
-  .fail(function( jqxhr, settings, exception ) {
-    console.log("Error loading script");
+  .fail(function (jqxhr, settings, exception) {
+    console.log('Error loading script');
     console.log(jqxhr);
     console.log(exception);
-  })
+  });
 // c.makeAllClaims();
