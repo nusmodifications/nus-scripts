@@ -26,7 +26,7 @@ var config = {
   // Your NUSSTU ID, such as a0099999
   student_id: prompt("Your NUSSTUID, such as a0099999"),
   // Module you are claiming hours for, such as CS1101S
-  module: prompt("Module code, such as CS1101S"),
+  module: 'CS1101S',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY13/14 Sem 2, it's Monday, Jan 13
