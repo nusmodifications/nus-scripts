@@ -63,7 +63,7 @@ var config = {
     // 2h grading * 14 weeks = 28 hours
     //
     // TOTAL: 70 hours
-    for (var week = 1; week <= 14; week++) {
+    for (var week = 1; week <= 13; week++) {
       activities_list.push({
         activity_type: ASSIGNMENT_MARKING,
         week: week,
@@ -72,8 +72,8 @@ var config = {
         end_time: '1500'
       });
 
-      if (week === 1 || week === 7 || week === 9) {
-        // there was no tutorial in week 1, 7 (recess) and 9 (PH)
+      if (week === 1 || week === 8) {
+        // there was no tutorial in week 1 and 8 (PH)
       } else {
         activities_list.push({
           activity_type: TUTORIAL,
@@ -94,7 +94,13 @@ var config = {
         });
       }
     };
-
+    activities_list.push({
+      activity_type: ASSIGNMENT_MARKING,
+      week: 'RECESS',
+      day: 'SATURDAY',
+      start_time: '1300',
+      end_time: '1500'
+    });
     return activities_list;
   }
 }
