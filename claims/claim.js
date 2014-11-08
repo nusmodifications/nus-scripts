@@ -69,7 +69,7 @@ var Claim = function() {
         var start_time_hour = parseInt(start_time.slice(0,2));
         var end_time_hour = parseInt(end_time.slice(0,2));
         var start_time_min = parseInt(start_time.slice(2));
-        var end_time_min = parseInt(start_time.slice(2));
+        var end_time_min = parseInt(end_time.slice(2));
 
         if (start_time_hour > end_time_hour || start_time === end_time) {
           throw 'Time error: end_time: ' + end_time + ' must be after start_time: ' + start_time + '.';
