@@ -29,8 +29,8 @@ var config = {
   module: 'CS3217',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
-  // This should be the semester's week 1. For AY13/14 Sem 2, it's Monday, Jan 13
-  first_day_of_sem: new Date(2014, 0, 13),
+  // This should be the semester's week 1. For AY14/15 Sem 2, it's Monday, Jan 12
+  first_day_of_sem: new Date(2015, 0, 12),
   // in case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
@@ -51,30 +51,18 @@ var config = {
         start_time: '1200',
         end_time: '1700'
       });
-      activities_list.push({
-        activity_type: Claim.COURSE_MATERIAL_PREPARATION,
-        week: week,
-        day: 'TUESDAY',
-        start_time: '1200',
-        end_time: '1700'
-      });
     }
 
-    activities_list.push({
-      activity_type: Claim.ASSIGNMENT_MARKING,
-      week: 2,
-      day: 'SATURDAY',
-      start_time: '1200',
-      end_time: '1600'
-    });
-
-    for (var week = 3; week <= 6; week++) {
+    for (var week = 1; week <= 8; week++) {
+      if (week === 7) {
+        continue;
+      }
       activities_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
         week: week,
         day: 'SATURDAY',
         start_time: '1200',
-        end_time: '1700'
+        end_time: '1600'
       });
     };
 
