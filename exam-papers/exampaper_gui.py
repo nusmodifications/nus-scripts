@@ -1,14 +1,13 @@
-import http.client
-import urllib.request
-import urllib.parse
-from tkinter import *
-from tkinter import filedialog
+import httplib
+import urllib
+from Tkinter import *
+import tkFileDialog
 
 module = euzernaem = parsewerd = destination = ''
 
 def getContents():
     global module, euzernaem, parsewerd
-    conn = http.client.HTTPSConnection('libbrs.nus.edu.sg')
+    conn = httplib.HTTPSConnection('libbrs.nus.edu.sg')
     page = '/infogate/loginAction.do?execution=login'
     conn.request('GET', page)
 
@@ -30,18 +29,18 @@ def getContents():
     params = 'userid='+euzernaem+'&password='+parsewerd+'&domain=NUSSTU&key=blankid%2BRESULT%2BEXAM%2B'+module
 
 
-    conn = http.client.HTTPSConnection('libbrs.nus.edu.sg')
+    conn = httplib.HTTPSConnection('libbrs.nus.edu.sg')
     conn.request("POST", page, params, headers)
     resp = conn.getresponse()
     data = str(resp.read())
     conn.close()
 
-    conn = http.client.HTTPConnection('libbrs.nus.edu.sg:8080')
+    conn = httplib.HTTPConnection('libbrs.nus.edu.sg:8080')
     page = '/infogate/jsp/login/success.jsp;jsessionid='+sessionid+'?exe=ResultList'
     conn.request("GET", page, params, headersGet)
     conn.close()
 
-    conn = http.client.HTTPConnection('libbrs.nus.edu.sg:8080')
+    conn = httplib.HTTPConnection('libbrs.nus.edu.sg:8080')
     page = '/infogate/searchAction.do?execution=ResultList'
     params = 'database=EXAM&searchstring='+module+'&d='
     conn.request("POST", page, params, headers)
@@ -62,11 +61,11 @@ def downloadall(data, headers, headersGet):
     params['maxDocIndex'] = params['maxNo']
 
     for i in range(1,maxDocIndex+1):
-        conn = http.client.HTTPConnection('libbrs.nus.edu.sg:8080')
+        conn = httplib.HTTPConnection('libbrs.nus.edu.sg:8080')
         page = '/infogate/searchAction.do?execution=ViewSelectedResultListLong'
         params['preSelectedId'] = i
         params['exportids'] = i
-        conn.request("POST", page, urllib.parse.urlencode(params), headers)
+        conn.request("POST", page, urllib.urlencode(params), headers)
         resp = conn.getresponse()
         data = resp.read()
         conn.close()
@@ -87,7 +86,7 @@ def downloadall(data, headers, headersGet):
         closequotes = data.find('"', openquotes+1)
         title = data[openquotes+1: closequotes]
 
-        conn = http.client.HTTPConnection('libbrs.nus.edu.sg:8080')
+        conn = httplib.HTTPConnection('libbrs.nus.edu.sg:8080')
         conn.request("GET", page, None, headersGet)
         resp = conn.getresponse()
         data = resp.read()
@@ -160,7 +159,7 @@ def getParams(data):
 
 def askForDestination():
     global destination, destField
-    destination = filedialog.askdirectory(mustexist=False, parent=top, title="Choose a destination")
+    destination = tkFileDialog.askdirectory(mustexist=False, parent=top, title="Choose a destination")
     destField.delete(0)
     destField.insert(0, destination)
 
