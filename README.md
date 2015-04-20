@@ -1,9 +1,9 @@
-NUS SOC Scripts
+NUS Scripts
 =================
 
 ### Introduction
 
-A collection of scripts to make the life of SOC students easier and better.
+A collection of scripts to make the life of NUS students easier and better.
 
 - **Claims**
   - Helpful script for any SoC undergrad tutors to submit their claims in the teaching claims portal for repetitive claims.
