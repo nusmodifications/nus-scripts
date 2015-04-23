@@ -44,16 +44,7 @@ var config = {
     var activities_list = [];
 
     // Course prep: 18 (+4) hours
-    // 1 class tutors to remove this first loop
-    for(var week = 1; week <= 4; week++) {
-      activities_list.push({
-        activity_type: Claim.COURSE_MATERIAL_PREPARATION,
-        week: week,
-        day: 'SATURDAY',
-        start_time: '1600',
-        end_time: '1700'
-      })
-    }
+    
     for (var week = 1; week <= 12; week++) {
       activities_list.push({
         activity_type: Claim.COURSE_MATERIAL_PREPARATION,
@@ -79,7 +70,7 @@ var config = {
         week: week,
         day: 'SATURDAY',
         start_time: '1600',
-        end_time: '1800'
+        end_time: '1700'
       });
     }
 
@@ -94,13 +85,6 @@ var config = {
         day: 'MONDAY',
         start_time: '1600',
         end_time: '1700'
-      });
-      activities_list.push({
-        activity_type: Claim.TUTORIAL,
-        week: week,
-        day: 'TUESDAY',
-        start_time: '1700',
-        end_time: '1800'
       });
     }
 
