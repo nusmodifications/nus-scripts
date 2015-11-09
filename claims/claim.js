@@ -34,7 +34,7 @@ var Claim = function () {
     var that = this;
 
     // Ensure claiming for correct module!
-    if ($('h3:contains("Module")').text().substr(8) !== config.module) {
+    if ($('h3:contains("Module:")').text().substr(8) !== config.module) {
       alert('Ensure that the module in config matches that of this page.');
       // Else you will have invisible claims taking up your time.
       throw new Error('Incorrect module in config.');
