@@ -5,8 +5,11 @@ var Claim = function () {
   var ASSIGNMENT_MARKING = 'Assignment Marking';
   var COURSE_MATERIAL_PREPARATION = 'Course Material Preparation';
   var TUTORIAL = 'Tutorial';
-  // CONSULTATION is not in the list of allowed duties as of AY14/15 SEM 1
-  // var CONSULTATION = 'Consultation with students';
+  var CONSULTATION = 'Consultation with students';
+  var MIDTERM_MARKING = 'Midterm Marking';
+  var PROJECT = 'Project Evaluation';
+  var SYSTEM_SETUP = 'System Preparation/setup';
+
   var POST_URL = '/~tssclaim/tutor/teach_claim.php';
   var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
 
@@ -15,10 +18,14 @@ var Claim = function () {
   // ***********************************************************
 
   var ACTIVITY_DICT = {};
+  // IMPORTANT: Not all categories may be availale for your module!!
   ACTIVITY_DICT[ASSIGNMENT_MARKING] = '003';
+  ACTIVITY_DICT[MIDTERM_MARKING] = '004';
+  ACTIVITY_DICT[PROJECT] = '005';
   ACTIVITY_DICT[COURSE_MATERIAL_PREPARATION] = '006';
+  ACTIVITY_DICT[SYSTEM_SETUP] = '007';
   ACTIVITY_DICT[TUTORIAL] = 'T';
-  // ACTIVITY_DICT[CONSULTATION] = 'C';
+  ACTIVITY_DICT[CONSULTATION] = 'C';
 
   var DAY_DICT = { 'MONDAY': 0, 'TUESDAY': 1, 'WEDNESDAY': 2, 'THURSDAY': 3, 'FRIDAY': 4, 'SATURDAY': 5, 'SUNDAY': 6 };
 
