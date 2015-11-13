@@ -123,6 +123,10 @@ var Claim = function () {
   Claim.ASSIGNMENT_MARKING = ASSIGNMENT_MARKING;
   Claim.COURSE_MATERIAL_PREPARATION = COURSE_MATERIAL_PREPARATION;
   Claim.TUTORIAL = TUTORIAL;
+  Claim.MIDTERM_MARKING = MIDTERM_MARKING;
+  Claim.PROJECT = PROJECT;
+  Claim.SYSTEM_SETUP = SYSTEM_SETUP;
+  Claim.CONSULTATION = CONSULTATION;
 
   Claim.prototype.makeClaim = function (activity_type, week, day, start_time, end_time) {
     var day_num = DAY_DICT[day];
