@@ -34,7 +34,7 @@ var config = {
   // In case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
-    'Assignment Marking': 'Graded students\' assignments',
+    'Assignment Marking': 'Graded CS3216 assignments',
     'Course Material Preparation': 'Prepared course materials',
     'Tutorial': 'Conducted workshop'
   },
@@ -43,31 +43,21 @@ var config = {
   activities_list_fn: function () {
     var activities_list = [];
 
-    // 4*2 = 8h tutorial
-    // 4*2 = 8h course material preparation
-    // 4*2 = 8h assignment grading
-    for (var week = 1; week <= 2; week ++) {
-      activities_list.push({
-        activity_type: Claim.TUTORIAL,
-        week: week,
-        day: 'SATURDAY',
-        start_time: '0900',
-        end_time: '1300'
-      });
-      activities_list.push({
-        activity_type: Claim.COURSE_MATERIAL_PREPARATION,
-        week: week,
-        day: 'SUNDAY',
-        start_time: '1500',
-        end_time: '1900'
-      });
-    }
-    for (var week = 5; week <= 11; week+=2) {
+    // 2015: 24 hours of assignment marking!
+    
+    for (var week = 4; week <= 10; week+=2) {
       activities_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
         week: week,
-        day: 'MONDAY',
+        day: 'FRIDAY',
         start_time: '1700',
+        end_time: '1900'
+      });
+      activities_list.push({
+        activity_type: Claim.ASSIGNMENT_MARKING,
+        week: week,
+        day: 'SUNDAY',
+        start_time: '1500',
         end_time: '1900'
       });
     }
