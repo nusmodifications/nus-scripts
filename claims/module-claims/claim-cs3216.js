@@ -44,7 +44,7 @@ var config = {
     var activities_list = [];
 
     // 2015: 24 hours of assignment marking!
-    
+
     for (var week = 4; week <= 10; week+=2) {
       activities_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
@@ -77,8 +77,8 @@ $.getScript(core_script)
     c = new Claim(config);
   })
   .fail(function (jqxhr, settings, exception ) {
-    console.log('Error loading script');
-    console.log(jqxhr);
-    console.log(exception);
+    console.warn('Error loading script');
+    console.warn(jqxhr);
+    console.warn(exception);
   });
 // c.makeAllClaims();

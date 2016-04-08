@@ -44,7 +44,7 @@ var config = {
     var activities_list = [];
 
     // Course prep: 18 (+4) hours
-    
+
     for (var week = 1; week <= 12; week++) {
       activities_list.push({
         activity_type: Claim.COURSE_MATERIAL_PREPARATION,
@@ -103,8 +103,8 @@ $.getScript(core_script)
     c = new Claim(config);
   })
   .fail(function (jqxhr, settings, exception) {
-    console.log('Error loading script');
-    console.log(jqxhr);
-    console.log(exception);
+    console.warn('Error loading script');
+    console.warn(jqxhr);
+    console.warn(exception);
   });
 // c.makeAllClaims();

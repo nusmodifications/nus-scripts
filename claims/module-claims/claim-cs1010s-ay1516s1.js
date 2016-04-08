@@ -48,8 +48,8 @@ var padZeros = function(x, l) { if (x.length < l) { return padZeros('0'+x, l); }
 var dateString = function(d) { return padZeros(d.getHours()+'',2) + padZeros(d.getMinutes()+'', 2); }
 var grading_start_string = dateString(GRADING_START_TIME);
 var grading_end_string = dateString(GRADING_END_TIME);
-console.log(grading_start_string);
-console.log(grading_end_string);
+console.warn(grading_start_string);
+console.warn(grading_end_string);
 
 var config = {
   // Format: YYYY/MM/DD
@@ -68,34 +68,34 @@ var config = {
     'Consultation with students': 'Had consultation with students'
   },
 
-  /* 
+  /*
     Claim hours (with 16 students and 2 tut as example) :
     (2 h class) + (16 students x 15 min / 60 = 4 h grading)  = 6 hours
     Mutliply that by 11 weeks
     1 tutorial  -> 33 hours
     2 tutorials -> 66 hours
-    
+
     So the hours for n students with k tutorials is (k+n/4)*11
   */
   // the following function should return a list of claim objects that you want to make
-  activities_list_fn: function() {  
+  activities_list_fn: function() {
     var claims_list = [];
 
-    // Weekly stuff 
+    // Weekly stuff
     // Tutorials: 11 x 1h class = 22h
     // Marking: 11 x 15mins x NUMBER_OF_STUDENTS
 
     for (var week = 3; week <= 13; week++) {
       claims_list.push({
-        activity_type: TUTORIAL, 
-        week: week, 
-        day: "MONDAY", 
+        activity_type: TUTORIAL,
+        week: week,
+        day: "MONDAY",
         start_time: '1300',
         end_time: (13 + NUMBER_OF_TUTORIALS) + '00'
       });
       claims_list.push({
-        activity_type: ASSIGNMENT_MARKING, 
-        week: week, 
+        activity_type: ASSIGNMENT_MARKING,
+        week: week,
         day: "SATURDAY",
         start_time: grading_start_string,
         end_time: grading_end_string
@@ -126,7 +126,7 @@ function Claim(config) {
   this.error = false;
   var that = this;
   function createActivity(activity_type, week, day, start_time, end_time) {
-    // obj has the properties: 
+    // obj has the properties:
     var day_upper = day.toUpperCase();
     try {
       if (ACTIVITY_DICT[activity_type] == undefined || typeof activity_type != "string") {
@@ -141,7 +141,7 @@ function Claim(config) {
       function checkTime(time) {
         var start_time_hour = time.slice(0,2);
         var start_time_min = time.slice(2);
-        if (typeof time != "string" || 
+        if (typeof time != "string" ||
           time.length != 4 ||
           !(parseInt(start_time_hour) >= 0 && parseInt(start_time_hour) <= 23) ||
           !(start_time_min == "00" || start_time_min == "30")) {
@@ -150,19 +150,19 @@ function Claim(config) {
       }
       checkTime(start_time);
       checkTime(end_time);
-      console.log('start time', start_time);
+      console.warn('start time', start_time);
       var start_time_hour = parseInt(start_time.slice(0,2));
       var end_time_hour = parseInt(end_time.slice(0,2));
       if (start_time_hour > end_time_hour || start_time === end_time) {
         throw "Time error: end_time: " + end_time + " must be after start_time: " + start_time + ".";
       } else if (end_time_hour - start_time_hour > 8) {
         throw "Time error: " + start_time + " - " + end_time + ". Activity cannot be more than 8 hours.";
-      } 
+      }
     } catch (err) {
       error = true;
-      console.log(err);
+      console.warn(err);
     }
-    return function() { 
+    return function() {
       that.makeClaim(activity_type, week, day, start_time, end_time);
     };
   }
@@ -174,7 +174,7 @@ function Claim(config) {
   }
 
   this.ajax_index = 0; // index to keep track of the current ajax call
-  console.log('Claim object successfully created. Run c.makeAllClaims() to start.');
+  console.warn('Claim object successfully created. Run c.makeAllClaims() to start.');
 }
 
 Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_time) {
@@ -201,7 +201,7 @@ Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_t
 
   var that = this;
   $.post(POST_URL, post_data, function(data) {
-    console.log('Successfully added ' + activity_type + ' for ' + claim_date_str);
+    console.warn('Successfully added ' + activity_type + ' for ' + claim_date_str);
     that.ajax_index += 1;
     if (that.ajax_index < that.activities_list.length) {
       that.activities_list[that.ajax_index]();
@@ -216,14 +216,14 @@ Claim.prototype.makeClaim = function(activity_type, week, day, start_time, end_t
 Claim.prototype.deleteAllClaims = function() {
   var that = this;
   function deleteClaim(claim_id) {
-    $.post(POST_URL, { 
+    $.post(POST_URL, {
       mod_c: that.module,
       claim_id: claim_id,
       action: 'DELETE',
       std_id: that.student_id,
       submit: 'DELETE + Save as Draft'
     }, function(data) {
-      console.log('Claim ' + claim_id + ' deleted');
+      console.warn('Claim ' + claim_id + ' deleted');
       count += 1;
       if (count === $existing_claims.length) {
         alert('All claims deleted! Press OK to continue.');

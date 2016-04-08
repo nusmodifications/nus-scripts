@@ -64,7 +64,7 @@ $.getScript(core_script)
     c = new Claim(config);
   })
   .fail(function (jqxhr, settings, exception ) {
-    console.log('Error loading script');
-    console.log(jqxhr);
-    console.log(exception);
+    console.warn('Error loading script');
+    console.warn(jqxhr);
+    console.warn(exception);
   });
