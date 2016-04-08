@@ -29,14 +29,13 @@ var config = {
   module: 'CS3217',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
-  // This should be the semester's week 1. For AY14/15 Sem 2, it's Monday, Jan 12
-  first_day_of_sem: new Date(2015, 0, 12),
+  // This should be the semester's week 1. For AY115/16 Sem 2, it's Monday, Jan 11
+  first_day_of_sem: new Date(2015, 0, 11),
   // in case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
-    'Course Material Preparation': 'Prepared problem sets',
-    'Tutorial': 'Conducted tutorial'
+    'Course Material Preparation': 'Prepared problem sets'
   },
 
   // the following function should return a list of claim objects that you want to make
@@ -47,21 +46,27 @@ var config = {
       activities_list.push({
         activity_type: Claim.COURSE_MATERIAL_PREPARATION,
         week: week,
-        day: 'MONDAY',
-        start_time: '1200',
-        end_time: '1700'
+        day: 'SUNDAY',
+        start_time: '1300',
+        end_time: '1800'
       });
     }
 
-    for (var week = 1; week <= 8; week++) {
-      if (week === 7) {
-        continue;
-      }
+    for (var week = 3; week <= 8; week++) {
+      if (week == 7) continue;
+
       activities_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
         week: week,
         day: 'SATURDAY',
-        start_time: '1200',
+        start_time: '0900',
+        end_time: '1200'
+      });
+      activities_list.push({
+        activity_type: Claim.ASSIGNMENT_MARKING,
+        week: week,
+        day: 'SUNDAY',
+        start_time: '1400',
         end_time: '1600'
       });
     };
