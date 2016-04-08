@@ -29,8 +29,8 @@ var config = {
   module: 'CS3217',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
-  // This should be the semester's week 1. For AY115/16 Sem 2, it's Monday, Jan 11
-  first_day_of_sem: new Date(2015, 0, 11),
+  // This should be the semester's week 1. For AY15/16 Sem 2, it's Monday, Jan 11
+  first_day_of_sem: new Date(2016, 0, 11),
   // in case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
