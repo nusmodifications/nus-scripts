@@ -57,7 +57,7 @@ var config = {
 // DO NOT CHANGE THE BOTTOM UNLESS YOU KNOW WHAT YOU ARE DOING
 // ***********************************************************
 
-var core_script = 'https://rawgit.com/nusmodifications/nus-soc-scripts/master/claims/claim.js';
+var core_script = 'https://rawgit.com/nusmodifications/nus-scripts/master/claims/claim.js';
 var c = undefined;
 $.getScript(core_script)
   .done(function () {
