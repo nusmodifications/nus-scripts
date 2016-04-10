@@ -87,7 +87,7 @@ var Claim = function () {
         that.proposed_hours += end_time_hour - start_time_hour + (end_time_min - start_time_min)/60;
       } catch (err) {
         error = true;
-        console.log(err);
+        console.warn(err);
       }
 
       return function () {
@@ -115,9 +115,9 @@ var Claim = function () {
     });
 
     this.ajax_index = 0; // index to keep track of the current ajax call
-    console.log('Current hours claimed: ' + this.existing_hours);
-    console.log('Proposed hours: ' + this.proposed_hours);
-    console.log('Claim object successfully created. Run c.makeAllClaims() to start.');
+    console.debug('Current hours claimed: ' + this.existing_hours);
+    console.debug('Proposed hours: ' + this.proposed_hours);
+    console.debug('Claim object successfully created. Run c.makeAllClaims() to start.');
   }
 
   Claim.ASSIGNMENT_MARKING = ASSIGNMENT_MARKING;
@@ -156,7 +156,7 @@ var Claim = function () {
 
     var that = this;
     $.post(POST_URL, post_data, function (data) {
-      console.log('Successfully added ' + activity_type + ' for ' + claim_date_str);
+      console.debug('Successfully added ' + activity_type + ' for ' + claim_date_str);
       that.ajax_index += 1;
       if (that.ajax_index < that.activities_list.length) {
         that.activities_list[that.ajax_index]();
@@ -178,7 +178,7 @@ var Claim = function () {
         std_id: that.student_id,
         submit: 'DELETE + Save as Draft'
       }, function (data) {
-        console.log('Claim ' + claim_id + ' deleted');
+        console.debug('Claim ' + claim_id + ' deleted');
         count += 1;
         if (count === $existing_claims.length) {
           alert('All claims deleted! Press OK to continue.');
