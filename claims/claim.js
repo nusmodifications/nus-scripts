@@ -9,6 +9,7 @@ var Claim = function () {
   var MIDTERM_MARKING = 'Midterm Marking';
   var PROJECT = 'Project Evaluation';
   var SYSTEM_SETUP = 'System Preparation/setup';
+  var LAB = 'Laboratory';
 
   var POST_URL = '/~tssclaim/tutor/teach_claim.php';
   var END_REDIRECT_URL = '/~tssclaim/tutor/teach_claim.php?page=list';
@@ -26,6 +27,7 @@ var Claim = function () {
   ACTIVITY_DICT[SYSTEM_SETUP] = '007';
   ACTIVITY_DICT[TUTORIAL] = 'T';
   ACTIVITY_DICT[CONSULTATION] = 'C';
+  ACTIVITY_DICT[LAB] = 'B';
 
   var DAY_DICT = { 'MONDAY': 0, 'TUESDAY': 1, 'WEDNESDAY': 2, 'THURSDAY': 3, 'FRIDAY': 4, 'SATURDAY': 5, 'SUNDAY': 6 };
 
@@ -127,6 +129,7 @@ var Claim = function () {
   Claim.PROJECT = PROJECT;
   Claim.SYSTEM_SETUP = SYSTEM_SETUP;
   Claim.CONSULTATION = CONSULTATION;
+  Claim.LAB = LAB;
 
   Claim.prototype.makeClaim = function (activity_type, week, day, start_time, end_time) {
     var day_num = DAY_DICT[day];
