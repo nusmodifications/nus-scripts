@@ -28,3 +28,6 @@ Many thanks to the following people who have contributed to these scripts in one
 - Emmanuel Goh [(https://github.com/emman27)](https://github.com/emman27)
 - Oh Shunhao [(https://github.com/Ohohcakester)](https://github.com/Ohohcakester)
 - Soon Chun Mun [(https://github.com/chunmun)](https://github.com/chunmun)
+- Joel Low [(https://github.com/lowjoel)](https://github.com/lowjoel)
+- Rey Neo [(https://github.com/reyy)](https://github.com/reyy)
+- Louie Tan [(https://github.com/louietyj)](https://github.com/louietyj)
