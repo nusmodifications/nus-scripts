@@ -21,7 +21,7 @@ var Claim = function () {
   var currentHoursClaimedMessage = 'Current hours claimed: ';
   var proposedClaimHoursMessage = 'Proposed hours: ';
   var claimObjectCreateSuccessMessage = 'Claim object successfully created. Run c.makeAllClaims() to start.';
-  var disclaimerMessage = 'Disclaimer: By using this script, you agree to take full responsibility and fully liability for the claims you are submitting. This program is released open-sourced under the MIT License at https://github.com/nusmodifications/nus-scripts.';
+  var disclaimerMessage = 'Disclaimer: By using this script, you agree to take full responsibility and are fully liable for the claims you are submitting. This program is released open-sourced under the MIT License at https://github.com/nusmodifications/nus-scripts.';
 
   var ACTIVITY_DICT = {};
   // IMPORTANT: Not all categories may be availale for your module!!
