@@ -34,7 +34,7 @@ var config = {
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY15/16 Sem 1, it's Monday, Aug 10
-  first_day_of_sem: new Date(2016, 7, 8),
+  first_day_of_sem: new Date(2017, 7, 14),
   // In case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
@@ -47,7 +47,7 @@ var config = {
   activities_list_fn: function () {
     var activities_list = [];
 
-    // 2016: 24 hours of assignment marking and 6 hours of course material preparation!
+    // 2017: 24 hours of assignment marking and 6 hours of course material preparation!
 
     for (var week = 4; week <= 10; week+=2) {
       activities_list.push({
