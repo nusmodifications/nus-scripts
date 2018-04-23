@@ -30,7 +30,7 @@ var config = {
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY15/16 Sem 2, it's Monday, Jan 11
-  first_day_of_sem: new Date(2016, 0, 11),
+  first_day_of_sem: new Date(2018, 0, 15),
   // in case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
@@ -42,34 +42,43 @@ var config = {
   activities_list_fn: function () {
     var activities_list = [];
 
-    for (var week = 1; week <= 2; week++) {
-      activities_list.push({
-        activity_type: Claim.COURSE_MATERIAL_PREPARATION,
-        week: week,
-        day: 'SUNDAY',
-        start_time: '1300',
-        end_time: '1800'
-      });
+    const prep_weeks = [1, 3, 5, 7, 9];
+    const ps_weeks = [2, 4, 6, 8, 10];
+    const ps_rates = [1, 1, 1.5, 1.5, 2];   // Hrs per submission
+
+    // ATTENTION: FILL THIS IN
+    const ps_students = [0, 0, 0, 0, 0];    // No. of students per PS
+
+    // Great big hack that might just happen to work without importing a time library
+    function make_time(hrs) {
+      return { start_time: String(1200),
+               end_time: String(1200 + Math.floor(hrs) * 100 + hrs % 1 * 60) };
     }
 
-    for (var week = 3; week <= 8; week++) {
-      if (week == 7) continue;
+    // Preparation claims (2h * 5 = 10h)
+    for (var week of prep_weeks) {
+      activities_list.push({
+        activity_type: Claim.ASSIGNMENT_MARKING,  // Waikay didn't approve "course material preparation"
+        week: week,
+        day: 'SUNDAY',
+        start_time: '1200',
+        end_time: '1400'
+      });  
+    }    
+
+    // Grading claims
+    for (var ps = 0; ps < 5; ps++) {
+      var ps_hours = ps_students[ps] * ps_rates[ps];
+      var times = make_time(ps_hours);
 
       activities_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
-        week: week,
-        day: 'SATURDAY',
-        start_time: '0900',
-        end_time: '1200'
-      });
-      activities_list.push({
-        activity_type: Claim.ASSIGNMENT_MARKING,
-        week: week,
+        week: ps_weeks[ps],
         day: 'SUNDAY',
-        start_time: '1400',
-        end_time: '1600'
+        start_time: times['start_time'],
+        end_time: times['end_time']
       });
-    };
+    }
 
     return activities_list;
   }
