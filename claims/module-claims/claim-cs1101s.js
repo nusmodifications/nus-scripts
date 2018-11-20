@@ -17,30 +17,74 @@
 
 // To delete all claims on the page, run the function c.deleteAllClaims()
 
-// Updated for: AY15/16 Sem 1
+// Updated for: AY18/19 Sem 1
 
 // ***********************************************************
 // CONFIGURE THE RELEVANT PROPERTIES IN THE CONFIG OBJECT
 // ***********************************************************
 
+function split_hours(hours, weeks) {
+  let division = Array(weeks);
+  let avg = Math.ceil(hours / weeks);
+  for (let i = 0; i < weeks; i++) {
+    if (hours < avg) {
+      division[i] = hours;
+      hours = 0;
+    } else {
+      hours = hours - avg;
+      division[i] = avg;
+    }
+  }
+  if (hours > 0) {
+    division[weeks - 1] += hours;
+  }
+  return division;
+}
+
+function promptAndParse(msg) {
+  let res = prompt(msg);
+  let parsed = parseInt(res);
+  if (isNaN(parsed)) {
+    console.log(`Assuming 0 for non-integer response ${res} for ${msg}`);
+    return 0;
+  }
+  return parsed;
+}
+
+function studio_slot(code) {
+  let index = parseInt(code.match(/[0-9]+/)[0]) - 1;
+  let times = ["0800", "1000", "1200", "1400", "1600", "1800"];
+  let result = {
+    day: index < 5 ? "MONDAY" : "TUESDAY",
+    start_time: times[index % 5],
+    end_time: times[1 + (index % 5)]
+  };
+  console.log(`Detected studio slot ${index + 1}`);
+  console.log(result);
+  return result;
+}
+
+var studio_number = prompt("What is your Studio Code? (e.g. 01E)");
+var studio_time = studio_slot(studio_number);
+
 var config = {
   // Your NUSSTU ID, such as a0012345
-  student_id: prompt('Your NUSSTU ID, such as a0012345'),
+  student_id: prompt('Your NUSSTU ID, such as e0012345'),
   // Module you are claiming hours for, such as CS1101S
   module: 'CS1101S',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY15/16 Sem 1, it's Monday, Aug 10
-  first_day_of_sem: new Date(2016, 08, 08),
+  first_day_of_sem: new Date(2018, 07, 13),
   // In case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
     'Assignment Marking': 'Graded students\' assignments',
-    'Course Material Preparation': 'Prepared assignments',
-    'Tutorial': 'Conducted tutorial',
+    'Course Material Preparation': 'Prepared for studios and assignments',
+    'Tutorial': 'Conducted Tutorial ' + studio_number,
     'Consultation with students': 'Consultation',
-    'Midterm Marking': 'Graded midterm test',
-    'Project Evaluation': 'Evaluated programming contest',
+    // 'Midterm Marking': 'Graded midterm test',
+    // 'Project Evaluation': 'Evaluated programming contest',
     'System Preparation/setup': 'Setup of online system'
   },
 
@@ -48,78 +92,94 @@ var config = {
   activities_list_fn: function () {
     var activities_list = [];
 
-    // Assignment marking: 11 - 1 hr x 11 weeks
-    // Consultation with students: 21 - 3 hrs x 7 weeks
-    // Course material preparation: 6
-    // Midterm marking: 3
-    // Project evaluation: 2 (let's say this is the contests)
-    // System preparation/setup: 5
-    // Tutorial: 22 - 2 hrs x 11 weeks
-    // TOTAL: 70 hours
+    // ===Baseline Amount===
+    // Assignment marking: 
+    //  8h all runes missions and sidequests
+    //  3h environment model mission
+    // Consultation with students: 12 = 1 hrs x 12 weeks
+    // Studio preparation: 12 = 1hrs x 12 weeks
+    // Studio: 24 = 2 x 12 weeks
+    // Baseline: 11 + 12 + 12 = 59
+
+    // === Variable Amount===
+    //  + additional variable grading
+    var grading_hours = 8 + 3 + promptAndParse(
+      ["How many ADDITIONAL hours of marking do you have, on top of the following which will be added automatically: ",
+        "8h for the Runes missions/sidequests",
+        "3h for the Env Model missions",
+        "If you did only the bare minimum for marking, enter 0."
+      ].join("\n")
+    );
+    // Mission authoring
+    var mission_hours = 12 + promptAndParse("How many hours did you spend preparing missions?");
+    // Consultation
+    var consultation_hours = 12 + promptAndParse("How many hours of consultation did you give? ")
+
+    var grading_hours_division = split_hours(grading_hours, 12);
+    var mission_hours_division = split_hours(mission_hours, 13);
+    var consultation_hours_division = split_hours(consultation_hours, 12);
+
     for (var week = 1; week <= 13; week++) {
-      if (week < 12) {
-        activities_list.push({
-          activity_type: Claim.ASSIGNMENT_MARKING,
-          week: week,
-          day: 'SATURDAY',
-          start_time: '1300',
-          end_time: '1400'
-        });
-      }
-      if (week % 2 == 0 || week == 13) {
-        activities_list.push({
-          activity_type: Claim.CONSULTATION,
-          week: week,
-          day: 'SATURDAY',
-          start_time: '1400',
-          end_time: '1700'
-        });
-      }
-
-      if (week === 1 || week === 13) {
-        // there was no tutorial in week 1 and 13
-      } else {
-        activities_list.push({
-          activity_type: Claim.TUTORIAL,
-          week: week,
-          day: 'MONDAY',
-          start_time: '1600',
-          end_time: '1800'
-        });
-      }
-
-      if (week <= 3) {
+      if (mission_hours_division[week - 1] > 0) {
         activities_list.push({
           activity_type: Claim.COURSE_MATERIAL_PREPARATION,
           week: week,
-          day: 'MONDAY',
-          start_time: '1800',
-          end_time: '2000'
+          day: 'SUNDAY',
+          start_time: '1000',
+          end_time: `1${mission_hours_division[week - 1]}00`,
         });
       }
+
+      if (week > 1) {
+        // Only have grading and consultations for 12 weeks
+        if (grading_hours_division[week - 2] > 0) {
+          activities_list.push({
+            activity_type: Claim.ASSIGNMENT_MARKING,
+            week: week,
+            day: 'SATURDAY',
+            start_time: '1000',
+            end_time: `1${grading_hours_division[week - 2]}00`,
+          });
+        }
+        if (consultation_hours_division[week - 2] > 0) {
+          activities_list.push({
+            activity_type: Claim.CONSULTATION,
+            week: week,
+            day: 'WEDNESDAY',
+            start_time: '1000',
+            end_time: `1${consultation_hours_division[week - 2]}00`,
+          });
+        }
+        activities_list.push({
+          ...studio_time,
+          activity_type: Claim.TUTORIAL,
+          week: week,
+        });
+      }
+
     }
 
-    activities_list.push({
-      activity_type: Claim.MIDTERM_MARKING,
-      week: 7,
-      day: 'WEDNESDAY',
-      start_time: '1700',
-      end_time: '2000'
-    });
-    activities_list.push({
-      activity_type: Claim.PROJECT,
-      week: 8,
-      day: 'WEDNESDAY',
-      start_time: '1700',
-      end_time: '1900'
-    });
-    activities_list.push({
-      activity_type: Claim.SYSTEM_SETUP,
-      week: 1,
-      day: 'TUESDAY',
-      start_time: '1600',
-      end_time: '2100'
-    });
+    // activities_list.push({
+    //   activity_type: Claim.MIDTERM_MARKING,
+    //   week: 7,
+    //   day: 'WEDNESDAY',
+    //   start_time: '1700',
+    //   end_time: '2000'
+    // });
+    // activities_list.push({
+    //   activity_type: Claim.PROJECT,
+    //   week: 8,
+    //   day: 'WEDNESDAY',
+    //   start_time: '1700',
+    //   end_time: '1900'
+    // });
+    // activities_list.push({
+    //   activity_type: Claim.SYSTEM_SETUP,
+    //   week: 1,
+    //   day: 'TUESDAY',
+    //   start_time: '1600',
+    //   end_time: '2100'
+    // });
     return activities_list;
   }
 };
@@ -128,7 +188,7 @@ var config = {
 // DO NOT CHANGE THE BOTTOM UNLESS YOU KNOW WHAT YOU ARE DOING
 // ***********************************************************
 
-var core_script = 'https://rawgit.com/nusmodifications/nus-scripts/master/claims/claim.js';
+var core_script = 'https://yyc.github.io/nus-scripts/claims/claim.js';
 var c = undefined;
 $.getScript(core_script)
   .done(function () {
