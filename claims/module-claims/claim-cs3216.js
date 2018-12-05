@@ -22,19 +22,17 @@
 // CONFIGURE THE RELEVANT PROPERTIES IN THE CONFIG OBJECT
 // ***********************************************************
 
-if (typeof STUDENT_ID == 'undefined') {
-  STUDENT_ID = null;
-}
+STUDENT_ID = prompt('Your NUSSTU ID, such as e0012345');
 
 var config = {
   // Your NUSSTU ID, such as a0012345
-   student_id: STUDENT_ID,
+  student_id: STUDENT_ID,
   // Module you are claiming hours for, such as CS1101S
   module: 'CS3216',
   // Format: YYYY/MM/DD
   // Note: Month is from 0-11, Date is from 1-31
   // This should be the semester's week 1. For AY15/16 Sem 1, it's Monday, Aug 10
-  first_day_of_sem: new Date(2017, 7, 14),
+  first_day_of_sem: new Date(2018, 7, 13),
   // In case you want to customize the duties field for each activity
   // Do not modify the keys
   duties: {
@@ -47,7 +45,7 @@ var config = {
   activities_list_fn: function () {
     var activities_list = [];
 
-    // 2017: 24 hours of assignment marking and 6 hours of course material preparation!
+    // 2018: 24 hours of assignment marking and 6 hours of course material preparation!
 
     for (var week = 4; week <= 10; week+=2) {
       activities_list.push({
@@ -85,7 +83,7 @@ var config = {
 if (!STUDENT_ID) {  // Chrome does not allow window.prompt() to run on an inactive tab.
   alert('Please modify STUDENT_ID in the code, or run STUDENT_ID="a0123456" before pasting and running the code.');
 } else {
-  var core_script = 'https://rawgit.com/nusmodifications/nus-scripts/master/claims/claim.js';
+  var core_script = 'https://yyc.github.io/nus-scripts/claims/claim.js';
   var c = undefined;
   $.getScript(core_script)
     .done(function () {
