@@ -188,7 +188,7 @@ var config = {
 // DO NOT CHANGE THE BOTTOM UNLESS YOU KNOW WHAT YOU ARE DOING
 // ***********************************************************
 
-var core_script = 'https://yyc.github.io/nus-scripts/claims/claim.js';
+var core_script = 'https://nusmodifications.github.io/nus-scripts/claims/claim.js';
 var c = undefined;
 $.getScript(core_script)
   .done(function () {

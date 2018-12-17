@@ -47,7 +47,7 @@ var config = {
 
     // 2018: 24 hours of assignment marking and 6 hours of course material preparation!
 
-    for (var week = 4; week <= 10; week+=2) {
+    for (var week = 4; week <= 10; week += 2) {
       activities_list.push({
         activity_type: Claim.ASSIGNMENT_MARKING,
         week: week,
@@ -63,9 +63,9 @@ var config = {
         end_time: '1900'
       });
     }
-    
+
     activities_list.push({
-      activity_type: Claim.COURSE_MATERIAL_PREPARATION,  // Now called "Course Material Creation".
+      activity_type: Claim.COURSE_MATERIAL_PREPARATION, // Now called "Course Material Creation".
       week: 1,
       day: 'MONDAY',
       start_time: '0900',
@@ -80,16 +80,16 @@ var config = {
 // DO NOT CHANGE THE BOTTOM UNLESS YOU KNOW WHAT YOU ARE DOING
 // ***********************************************************
 
-if (!STUDENT_ID) {  // Chrome does not allow window.prompt() to run on an inactive tab.
+if (!STUDENT_ID) { // Chrome does not allow window.prompt() to run on an inactive tab.
   alert('Please modify STUDENT_ID in the code, or run STUDENT_ID="a0123456" before pasting and running the code.');
 } else {
-  var core_script = 'https://yyc.github.io/nus-scripts/claims/claim.js';
+  var core_script = 'https://nusmodifications.github.io/nus-scripts/claims/claim.js';
   var c = undefined;
   $.getScript(core_script)
     .done(function () {
       c = new Claim(config);
     })
-    .fail(function (jqxhr, settings, exception ) {
+    .fail(function (jqxhr, settings, exception) {
       console.warn('Error loading script');
       console.warn(jqxhr);
       console.warn(exception);
